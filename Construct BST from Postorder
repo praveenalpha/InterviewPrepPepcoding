@@ -1,0 +1,80 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+	int data;
+	struct Node *left;
+	struct Node *right;
+	
+	Node(int x){
+	    data = x;
+	    left = NULL;
+	    right = NULL;
+	}
+};
+
+Node *constructTree (int [], int );
+
+void printInorder (Node* node)
+{
+	if (node == NULL)
+		return;
+	printInorder(node->left);
+	printf("%d ", node->data);
+	printInorder(node->right);
+	
+
+}
+
+int main ()
+{   
+    int t,n;
+   scanf("%d",&t);
+    while(t--){
+        scanf("%d",&n);
+        int post[n];
+        for(int i=0;i<n;i++)
+        scanf("%d",&post[i]);
+
+    Node* root = constructTree(post, n);
+
+	printInorder(root);
+    printf("\n");
+}
+	return 0;
+}
+// } Driver Code Ends
+
+
+/*struct Node
+{
+	int data;
+	Node *left, *right;
+};*/
+
+int i=0;
+Node* solve(int post[], int lb , int ub){
+    if(i < 0){
+        return nullptr;
+    }
+    if(post[i] >= lb && post[i] <= ub){
+        Node* root = new Node(post[i]);
+        int data=root->data;
+        
+        i--;
+        
+        root -> right = solve(post,data,ub);
+        
+        root -> left = solve(post,lb,data);
+        
+        return root;
+    }
+    return nullptr;
+}
+Node *constructTree (int post[], int size)
+{
+    i=size-1;
+    return solve(post,INT_MIN,INT_MAX);
+}
