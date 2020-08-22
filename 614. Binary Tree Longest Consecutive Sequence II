@@ -1,0 +1,79 @@
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param root: the root of binary tree
+     * @return: the length of the longest consecutive sequence path
+     */
+    // first -> increasing
+    // second -> decreasing
+    int ans;
+    pair<int,int> solve(TreeNode* root){
+        if(root == nullptr)
+            return {-1,-1};
+        pair<int,int> lans = solve(root -> left);
+        pair<int,int> rans = solve(root -> right);
+        if(root->left != nullptr && root->right !=nullptr){
+            if(root->left->val == root->val+1 && root->right->val+1 == root->val){
+                ans = max(ans,lans.first+rans.second+1);
+            }
+            else if(root->left->val+1 == root->val && root->right->val == root->val+1){
+                ans = max(ans,lans.second+rans.first+1);
+            }
+        }
+        if(root->left != nullptr){
+            if(root->left->val == root->val+1){
+                ans = max(ans,lans.first+1);
+            }
+            else if(root->left->val+1 == root->val){
+                ans = max(ans,lans.second+1);
+            }
+        }
+        if(root->right != nullptr){
+            if(root->right->val == root->val+1){
+                ans = max(ans,rans.first+1);
+            }
+            else if(root->right->val+1 == root->val){
+                ans = max(ans,rans.second+1);
+            }
+        }
+        int inc=1;
+        int dec=1;
+        if(root->left != nullptr){
+            if(root->left->val == root->val+1){
+                inc=lans.first+1;
+            }
+            else if(root->left->val+1 == root->val){
+                dec=lans.second+1;
+            }
+        }
+        if(root->right != nullptr){
+            if(root->right->val == root->val+1){
+                inc=max(inc,rans.first+1);
+            }
+            else if(root->right->val+1 == root->val){
+                dec=max(dec,rans.second+1);
+            }
+        }
+        return {inc,dec};
+    }
+    int longestConsecutive2(TreeNode * root) {
+        if(root==nullptr)
+            return 0;
+        ans = 1;
+        solve(root);
+        return ans;
+    }
+};
