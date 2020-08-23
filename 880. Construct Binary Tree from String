@@ -1,0 +1,71 @@
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param s: a string
+     * @return: a root of this tree
+     */
+    int i;
+    TreeNode* solve(string s){
+        if(i==s.length())
+            return nullptr;
+        bool neg = false;
+        if(s[i] == '-'){
+            neg = true;
+            ++i;
+        }
+        int num;
+        if(isdigit(s[i]) ){
+            num = s[i]-'0';
+            while(i+1 != s.length() && isdigit(s[i+1])){
+                num = num*10 + s[i+1]-'0';
+                ++i;
+            }
+        }
+        ++i;
+        if(neg)
+            num = -num;
+        TreeNode* root = new TreeNode(num);
+        if(i == s.length())
+            return root;
+        if(s[i] == '('){
+            ++i;
+            root->left = solve(s);
+        }
+        if(i == s.length())
+            return root;
+        if(s[i] == ')'){
+            ++i;
+            return root;
+        }
+        if(i == s.length())
+            return root;
+        if(s[i] == '('){
+            ++i;
+            root->right = solve(s);
+        }
+        if(i == s.length())
+            return root;
+        if(s[i] == ')'){
+            ++i;
+            return root;
+        }
+        return root;
+    }
+    TreeNode * str2tree(string &s) {
+        i=0;
+        return solve(s);
+    }
+};
