@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+void solve(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,m;
+        cin>>n>>m;
+        int candiesLeft = m;
+        int i=1;
+        while(candiesLeft > 0){
+            if(candiesLeft - i < 0)
+                break;
+            candiesLeft -= i;
+            i++;
+            if(i == n+1)
+                i=1;
+        }
+        cout<<candiesLeft<<'\n';
+    }
+}
+int main() {
+    solve();
+	//code
+	return 0;
+}
