@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+void solve(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int> arr(n);
+        for(int i=0;i<n;i++)
+            cin>>arr[i];
+        stack<int> st;
+        int ans = 0;
+        int li = 0;
+        int ri = n-1;
+        int lmax = 0;
+        int rmax = 0;
+        while(li <= ri){
+            lmax = max(lmax,arr[li]);
+            rmax = max(rmax,arr[ri]);
+            if(lmax <= rmax)
+                ans += lmax - arr[li++];
+            else
+                ans += rmax - arr[ri--];
+        }
+        cout<<ans<<'\n';
+    }
+}
+int main() {
+	solve();
+	//code
+	return 0;
+}
