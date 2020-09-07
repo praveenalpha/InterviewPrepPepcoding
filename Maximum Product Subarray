@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+long long int Max(long long int a, long long int b){
+    return a>b ? a:b;
+}
+long long int Min(long long int a, long long int b){
+    return a<b ? a:b;
+}
+
+void solve(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int> arr(n);
+        for(int i=0;i<n;i++)
+            cin>>arr[i];
+        long long int curr_max_prod = arr[0];
+        long long int curr_min_prod = arr[0];
+        long long int prev_max_prod = arr[0];
+        long long int prev_min_prod = arr[0];
+        long ans = arr[0];
+        int mod = 1000000007;
+        for(int i=1;i<n;++i){
+            curr_max_prod = Max((prev_max_prod % mod * arr[i] % mod)%mod , Max(arr[i],(prev_min_prod%mod * arr[i]%mod)%mod));
+            curr_min_prod = Min((prev_max_prod%mod * arr[i]%mod)%mod , Min(arr[i],(prev_min_prod%mod * arr[i]%mod)%mod));
+            ans = Max(ans , curr_max_prod);
+            prev_max_prod = curr_max_prod;
+            prev_min_prod = curr_min_prod;
+        }
+        cout<<ans<<'\n';
+    }
+}
+int main() {
+	solve();
+	//code
+	return 0;
+}
