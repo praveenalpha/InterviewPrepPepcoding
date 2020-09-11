@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+long long int invC;
+void merge(vector<int>& arr,int l,int m,int r){
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    vector<int> L;
+    vector<int> R;
+    for(int i=0;i<n1;++i)
+        L.push_back(arr[l + i]);
+    for(int i=0;i<n2;++i)
+        R.push_back(arr[m+ 1 + i]);
+    
+    int i=0,j=0,k=l;
+    while(i<n1 && j<n2){
+        if(L[i] <= R[j]){
+            arr[k] = L[i++];
+        }
+        else{
+            invC += n1 - i;
+            arr[k] = R[j++];
+        }
+        k++;
+    }
+    while(i<n1)
+        arr[k++] = L[i++];
+    while(j<n2)
+        arr[k++] = R[j++];
+    
+}
+void mergeSort(vector<int>& arr,int l,int r){
+    if(l>=r)
+        return;
+    int m = l + ((r-l)>>2);
+    mergeSort(arr,l,m);
+    mergeSort(arr,m+1,r);
+    merge(arr,l,m,r);
+}
+void print(vector<int>& arr){
+    for(int e:arr)
+        cout<<e<<" ";
+}
+void solve(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int> arr(n);
+        for(int i=0;i<n;++i)
+            cin>>arr[i];
+        invC = 0;
+        mergeSort(arr,0,n-1);
+        // print(arr);
+        cout<<invC<<'\n';
+    }
+}
+int main() {
+	solve();
+	//code
+	return 0;
+}
