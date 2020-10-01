@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+void solve(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,k;
+        cin>>n>>k;
+        vector<int> arr(n);
+        for(int i=0;i<n;++i)
+            cin>>arr[i];
+        vector<vector<int>> ans;
+        sort(arr.begin(),arr.end());
+            
+        int i=0,j,left,right;
+        bool flag = false;
+        while(i<n-3){
+            j = i+1;
+            while(j<n-2){
+                left = j + 1;
+                right = n-1;
+                while(left < right){
+                    if(arr[i] + arr[j] + arr[left] + arr[right] == k){
+                        ans.push_back({arr[i],arr[j],arr[left],arr[right]});//cout<<"A";flag=true;break;
+                        while(left+1 < n && arr[left] == arr[left+1])
+                            ++left;
+                        ++left;
+                        while(right-1 > j+1 && arr[right] == arr[right-1])
+                            --right;
+                        --right;
+                    }
+                    else if(arr[i] + arr[j] + arr[left] + arr[right] > k){
+                        while(right-1 > j+1 && arr[right] == arr[right-1])
+                            --right;
+                        --right;
+                    }
+                    else{
+                        while(left+1 < n && arr[left] == arr[left+1])
+                            ++left;
+                        ++left;
+                    }
+                }
+                while(j+1<n-2 && arr[j] == arr[j+1])
+                    ++j;
+                ++j;
+            
+            }if(flag) break;
+            while(i+1 < n-3 && arr[i] == arr[i+1])
+                ++i;
+            ++i;
+        }
+        if(ans.size() == 0)
+            cout<<-1;
+        else{
+            for(vector<int> e:ans){
+                for(int f:e)
+                    cout<<f<<" ";
+                cout<<'$';
+            }
+        }
+        cout<<'\n';
+    }
+}
+int main() {
+	solve();
+	//code
+	return 0;
+}
