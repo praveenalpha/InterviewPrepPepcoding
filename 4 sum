@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& arr, int l) {
+        int n = arr.size(),d,left,right;
+        vector<vector<int>> ans;
+        sort(arr.begin(),arr.end());
+        int i = 0;
+        while(i<n-3){
+            int j = i + 1;
+            while(j<n-2){
+                left = j + 1;
+                right = n-1;
+                while(left < right){
+                    d = l - (arr[i] + arr[j]);
+                    if(arr[left] + arr[right] == d){
+                        ans.push_back({arr[i],arr[j],arr[left],arr[right]});
+                        while(right-1 >= 0 && arr[right] == arr[right-1])
+                                --right;
+                        --right;
+                        while(left+1 < n && arr[left] == arr[left+1])
+                                ++left;
+                        ++left;
+                    }
+                    else if(arr[left] + arr[right] > d){
+                            while(right-1 >= 0 && arr[right] == arr[right-1])
+                                --right;
+                        --right;
+                    }
+                    else{
+                        while(left+1 < n && arr[left] == arr[left+1])
+                            ++left;
+                        ++left;
+                    }
+                }
+                while(j<n-2 && arr[j] == arr[j+1])
+                    ++j;
+                ++j;
+            }
+            while(i<n-3 && arr[i] == arr[i+1])
+                    ++i;
+                ++i;
+        }
+        return ans;
+    }
+};
