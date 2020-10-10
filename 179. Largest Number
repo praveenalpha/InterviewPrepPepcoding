@@ -1,0 +1,27 @@
+class Solution {
+public:
+    static bool comparator(int one,int two){//return one>two;
+    string a = to_string(one) + to_string(two);
+    string b = to_string(two) + to_string(one);
+    
+    int i=0;
+    while(i<a.length() && i<b.length()){
+        if(a[i]>b[i])
+            return true;
+        else if(a[i]<b[i])
+            return false;
+        ++i;
+    }
+    return false;
+}
+    string largestNumber(vector<int>& arr) {
+        sort(arr.begin(),arr.end(),comparator);
+        if(arr[0] == 0)
+            return "0";
+	    string str;//cout<<arr.size();
+	    for(int i=0;i<arr.size();++i){
+	        str+=to_string(arr[i]);
+	    }
+	    return str;
+    }
+};
