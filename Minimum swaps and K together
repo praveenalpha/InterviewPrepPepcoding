@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n;
+	    cin>>n;
+	    vector<int> arr(n);
+	    for(int i=0;i<n;++i)
+	        cin>>arr[i];
+	    int k;
+	    cin>>k;
+	    int count=0;
+	    for(int i=0;i<n;++i)
+	        if(arr[i] <= k)
+	            ++count;
+	    
+	    int currentWindowMinSwap = 0,ans=INT_MAX;
+	    
+	    for(int i=0;i<count;++i)
+	        if(arr[i] > k)
+	            ++currentWindowMinSwap;
+	    int prevWindowMinSwap = currentWindowMinSwap;
+	    for(int i=count;i<n;++i){
+	        
+	        if(arr[i] > k)
+	            ++currentWindowMinSwap;
+	        if(arr[i-count] > k)
+	            --currentWindowMinSwap;
+	        ans = min(prevWindowMinSwap,min(ans,currentWindowMinSwap));
+	        prevWindowMinSwap = currentWindowMinSwap;
+	    }
+	    if(ans == INT_MAX)
+	        cout<<0<<'\n';
+	    else
+	        cout<<ans<<'\n';
+	    
+	}
+	return 0;
+}
