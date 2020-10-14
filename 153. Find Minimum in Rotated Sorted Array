@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int findMin(vector<int>& arr) {
+        int n = arr.size();
+        int next , prev , s = 0 , e = n - 1;
+        while(s <= e){
+            int mid = s + (e - s) / 2;
+            next = arr[(mid + 1) % n];
+            prev = arr[(mid + n -1) % n];
+            if(arr[mid] <= next && arr[mid] <= prev)
+                return arr[mid];
+            else if(arr[mid] < arr[e])
+                e = mid - 1;
+            else
+                s = mid + 1;
+        }
+        return -1;
+    }
+};
