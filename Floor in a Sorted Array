@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+int binarySearch(vector<int>& arr, int k){
+    int res = -1;
+    int s = 0 , e = arr.size() -1 ;
+        while(s <= e){
+            int mid = s +  ((e - s) >> 1);
+            if(arr[mid] == k)
+                return mid;
+            else if(arr[mid] < k){
+                res = mid;
+                s = mid + 1;
+            }
+            else
+                e = mid - 1;
+        }
+        return res;
+}
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        int n,k;
+        cin>>n>>k;
+        vector<int> arr(n);
+        for(int i=0;i<n;++i)
+            cin>>arr[i];
+        cout<<binarySearch(arr,k) << '\n';
+        
+    }
+	return 0;
+}
