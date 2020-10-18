@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int> arr(n);
+        for(int i=0;i<n;++i)
+            cin>>arr[i];
+        vector<int> inc(n);
+        vector<int> exc(n);
+        inc[0] = arr[0];
+        exc[0] = 0;
+        for(int i=1;i<n;++i){
+            inc[i] = exc[i-1] + arr[i];
+            exc[i] = max(exc[i-1] , inc[i-1]);
+        }
+        cout<<max(inc[n-1] , exc[n-1])<<'\n';
+    }
+	return 0;
+}
