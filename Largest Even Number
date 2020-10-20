@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        string p;
+        cin>>p;
+        int n = p.length(), Max = INT_MIN, Min = INT_MAX;
+        for(int i=0;i<n;++i){
+            Max = max(Max, p[i] - '0');
+            Min = min(Min, p[i] - '0');
+        }
+        vector<int> freq(Max - Min + 1, 0);
+        for(int i = 0 ; i < n ; ++i)
+            freq[(p[i] - '0') - Min]++;
+        vector<int> ans(n);
+        for(int i=0; i < freq.size() ; ++i){
+            if((((i + Min) & 1 ) == 0) && freq[i] != 0){
+                ans[n-1] = i + Min;
+                --freq[i];
+                break;
+            }
+        }
+        // for(int i = n-2 ; i >= 0 ;--i)
+        //     freq[i] = freq[i+1] + freq[i];
+        int k = 0;
+        for(int i = freq.size() - 1 ; i >= 0 ; --i){
+            while(freq[i] > 0){
+                --freq[i];
+                ans[k++] = i + Min;
+            }
+        }
+        for(int e:ans)
+            cout<<e;
+        cout<<'\n';
+    }
+	return 0;
+}
