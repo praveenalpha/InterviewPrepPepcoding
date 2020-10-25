@@ -1,0 +1,89 @@
+class Solution {
+public:
+    string countSort(vector<int> freq){
+        string res = "";
+        for(int i=9;i>=0;--i){
+            while(freq[i] > 0){
+                res += to_string(i);
+                --freq[i];
+            }
+        }
+        return res;
+    }
+    bool desiredNumbersArePresent(int a,int b,int c,vector<int>& freq){
+        if(freq[a] > 0){
+            --freq[a];
+            return true;
+        }
+        else if(freq[b] > 0){
+            --freq[b];
+            return true;
+        }
+        else if(freq[c] > 0){
+            --freq[c];
+            return true;
+        }
+        return false;
+    }
+    bool desiredNumbersArePresent2(int a,int b,int c,vector<int>& freq){
+        if(freq[a] > 1){
+            freq[a] -= 2;
+            return true;
+        }
+        else if(freq[b] > 1){
+            freq[b] -= 2;
+            return true;
+        }
+        else if(freq[c] > 1){
+            freq[c] -= 2;
+            return true;
+        }
+        else if(freq[a] > 0 && freq[b] > 0){
+            --freq[a];
+            --freq[b];
+            return true;
+        }
+        else if(freq[b] > 0 && freq[c] > 0){
+            --freq[b];
+            --freq[c];
+            return true;
+        }
+        else if(freq[c] > 0 && freq[a] > 0){
+            --freq[c];
+            --freq[a];
+            return true;
+        }
+        return false;
+    }
+    string largestMultipleOfThree(vector<int>& a) {
+        vector<int> freq(10,0);
+        int sum = 0 , n = a.size();
+        for(int i=0;i<n;++i){
+            sum += a[i];
+            ++freq[a[i]];
+        }
+        string ans = "";
+        if(sum % 3 == 0){
+            ans = countSort(freq);
+        }
+        else if(sum % 3 == 1){
+            if(desiredNumbersArePresent(1,4,7,freq)){
+                ans = countSort(freq);
+            }
+            else if(desiredNumbersArePresent2(2,5,8,freq)){
+                ans = countSort(freq);
+            }
+        }
+        else {
+            if(desiredNumbersArePresent(2,5,8,freq)){
+                ans = countSort(freq);
+            }
+            else if(desiredNumbersArePresent2(1,4,7,freq)){
+                ans = countSort(freq);
+            }
+        }
+        if(ans.length() > 0 && ans[0] == '0')
+            return "0";
+        return ans;
+    }
+};
