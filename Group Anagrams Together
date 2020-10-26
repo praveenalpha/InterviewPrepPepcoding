@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+string getKey(string &str){
+    vector<int> freq(26,0);
+    for(int i=0;i<str.length();++i)
+        freq[str[i] - 'a']++;
+    string ans = "";
+    for(int i=0;i<26;++i)
+        if(freq[i] > 0)
+            ans += (char)('a' + i) + to_string(freq[i]);
+    return ans;
+}
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<string> input(n);
+        for(int i=0;i<n;++i)
+            cin>>input[i];
+        unordered_map<string, int> mp;
+        for(int i=0;i<n;++i){
+            string key = getKey(input[i]);
+            mp[key]++;
+        }
+        for(auto e:mp)
+            cout<<e.second<<" ";
+        cout<<'\n';
+    }
+	return 0;
+}
