@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        string str;
+        cin>>str;
+        queue<string> q;
+        q.push(str);
+        while(q.size() != 0){
+            string rstr = q.front();
+            q.pop();
+            size_t i = rstr.find('?');
+            if(i != string::npos){
+                rstr[i] = '0';
+                q.push(rstr);
+                rstr[i] = '1';
+                q.push(rstr);
+            }
+            else cout<<rstr<<" ";
+        }
+        cout<<'\n';
+    }
+	return 0;
+}
