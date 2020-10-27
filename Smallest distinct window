@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        string str;
+        cin>>str;
+        int totalDistinctInStr = 0;
+        vector<int> freq(26,0);
+        for(size_t i = 0 ; i < str.length(); ++i){
+            if(freq[str[i] - 'a'] == 0){
+                ++freq[str[i] - 'a'];
+                ++totalDistinctInStr;
+            }
+        }
+        for(int i=0;i<26;++i)
+            freq[i] = 0;
+        int currDistinct = 1 , ans = INT_MAX;
+        int append = 0 , discard = 0;
+        int i=0,j=0;
+        ++freq[str[0] - 'a'];
+        while(append <= str.length()){
+            if(currDistinct < totalDistinctInStr){
+                ++append;
+                if(freq[str[append] - 'a'] == 0)
+                    ++currDistinct;
+                ++freq[str[append] - 'a'];
+            }
+            else{
+                
+                ans = min(ans , append - discard + 1);
+                --freq[str[discard] - 'a'];
+                if(freq[str[discard] - 'a'] == 0)
+                    --currDistinct;
+                ++discard;
+            }
+        }
+        
+       if(append == str.length())
+         cout<<ans - 1<<'\n';
+         
+        else cout<<ans<<'\n';
+       
+    }
+	return 0;
+}
