@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool check(vector<int>& f1, vector<int>& f2){
+    for(int i=0;i<26;++i){
+        if(f1[i] != 0 && f2[i] < f1[i])
+           return false;
+    }
+    return true;
+}
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        string s1 , s2;
+        cin>>s1>>s2;
+        int n1 = s1.length() , n2 = s2.length();
+        if(n1 < n2){
+            string temp = s1;
+            s1 = s2;
+            s2 = temp;
+            int temp2 = n1;
+            n1 = n2 ; 
+            n2 = temp2;
+        }
+        string res = "";
+        vector<int> freqOfSmallerString(26, 0);
+        vector<int> freqOfLargerString(26, 0);
+        for(int i=0;i<n2;++i)
+            ++freqOfSmallerString[s2[i] - 'a'];
+        int left = 0 , right = 0 , ans = INT_MAX;
+        
+        while(right <= n1){
+            if(check(freqOfSmallerString, freqOfLargerString)){
+                if(ans > right - left){
+                    ans = right - left;
+                    res = s1.substr(left,right - left);
+                }
+                --freqOfLargerString[s1[left++] - 'a'];
+            }
+            else 
+                ++freqOfLargerString[s1[right++] - 'a'];
+        }
+        if(res.length() == 0)
+            cout<<-1<<'\n';
+        else cout<<res<<'\n';
+    }
+	return 0;
+}
