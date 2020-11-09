@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+#define p pair<int,pair<int,int>>
+using namespace std;
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<vector<int>> arr(n, vector<int> (n));
+        for(int i=0;i<n;++i)
+            for(int j = 0 ; j  < n ;++j)
+                cin>>arr[i][j];
+        priority_queue< p ,vector<p> ,greater<p> > pq;
+        
+        for(int i=0;i<n;++i)
+            pq.push({arr[0][i] , {0,i}});
+        while(pq.size() != 0){
+            p rp = pq.top();
+            cout<<rp.first<<" ";
+            pq.pop();
+            if(rp.second.first + 1 < n){
+                int row = rp.second.first + 1;
+                int col = rp.second.second;
+                pq.push({arr[row][col] , {row,col}});
+            }
+        }
+        cout<<'\n';
+    }
+	return 0;
+}
