@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<vector<int>> res;
+        if(k == 0)
+            return res;
+        if(nums1.size() == 0 || nums2.size() == 0)
+            return res;
+        
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>> > pq;
+        
+        set<pair<int,int>> ms;
+        int i=0,j=0;
+        pq.push({nums1[0] + nums2[0], {0,0}});
+        while(k--){
+            pair<int,pair<int,int>> rpair = pq.top();
+            pq.pop();
+            res.push_back({nums1[rpair.second.first], nums2[rpair.second.second]});
+            
+            i = rpair.second.first;
+            j = rpair.second.second;
+            if(j+1 < nums2.size()&& ms.find({i, j+1})==ms.end()){
+                ms.insert({i,j+1});
+                pq.push({nums1[i] + nums2[j+1],{i,j+1}});
+                cout<<i<<","<<j+1<<" ";
+            }
+            if(i+1 < nums1.size() && ms.find({i+1, j})==ms.end()){
+                ms.insert({i+1,j});
+                pq.push({nums1[i+1] + nums2[j],{i+1, j}});
+            }
+            if(pq.size() == 0)
+                return res;
+        }
+        return res;
+    }
+};
