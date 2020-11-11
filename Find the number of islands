@@ -1,0 +1,57 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+int findIslands(vector<int> A[], int N, int M);
+
+int main() {
+
+    int T;
+    cin >> T;
+    while (T--) {
+        int N, M;
+        cin >> N >> M;
+        vector<int> A[N];
+        for (int i = 0; i < N; i++) {
+            vector<int> temp(M);
+            A[i] = temp;
+            for (int j = 0; j < M; j++) {
+                cin >> A[i][j];
+            }
+        }
+        cout << findIslands(A, N, M) << endl;
+    }
+    return 0;
+}// } Driver Code Ends
+
+
+/*you are required to complete this method*/
+
+/*  Function to find number of islands in the given graph
+*   A[]: input array
+*   N, M: Row and column of given matrix
+*/
+vector<vector<int>> directionVector = {{0,-1},{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1}};
+void DFS(int i,int j,int N,int M,vector<int> A[]){
+    A[i][j] = 0;
+    for(int dir = 0 ; dir < 8 ; ++dir){
+        int row = i + directionVector[dir][0];
+        int col = j + directionVector[dir][1];
+        if(row >= 0 && row < N && col >= 0 && col < M && A[row][col] == 1)
+            DFS(row,col,N,M,A);
+    }
+}
+int findIslands(vector<int> A[], int N, int M) {
+    int ans = 0;
+    
+    for(int i=0;i<N;++i){
+        for(int j=0;j<M;++j){
+            if(A[i][j] == 1){
+                DFS(i,j,N,M,A);
+                ++ans;
+            }
+        }
+    }
+    return ans;
+    // Your code here
+}
