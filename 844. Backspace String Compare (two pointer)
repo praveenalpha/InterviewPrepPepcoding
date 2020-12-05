@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool backspaceCompare(string S, string T) {
+        int i = S.length() - 1 , j = T.length() - 1 , hashS = 0 , hashT = 0;
+        while(i >= 0 || j >= 0){
+            while(i >= 0){
+                if(S[i] == '#'){
+                    hashS++;
+                    --i;
+                }
+                else if(hashS > 0){
+                    hashS--;
+                    --i;
+                }
+                else
+                    break;
+            }
+            while(j >= 0){
+                if(T[j] == '#'){
+                    hashT++;
+                    --j;
+                }
+                else if(hashT > 0){
+                    hashT--;
+                    --j;
+                }
+                else break;
+            }
+            if(i < 0 || j < 0)
+                break;
+            if(S[i] != T[j])
+                return false;
+            --i;
+            --j;
+        }
+        if(i < 0 && j < 0)
+            return true;
+        return false;
+    }
+};
