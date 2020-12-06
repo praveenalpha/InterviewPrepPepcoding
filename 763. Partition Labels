@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> partitionLabels(string S) {
+        vector<int> freq(26);
+        vector<bool> isDistinct(26,true);
+        for(char c : S)
+            freq[c - 'a']++;
+        vector<int> ans;
+        int beg = 0 , i = 0 , distinctCount = 0;
+        while(i < S.length()){
+            if(isDistinct[S[i] - 'a']){
+                ++distinctCount;
+                isDistinct[S[i] - 'a'] = false;
+            }
+            
+            --freq[S[i] - 'a'];
+            
+            if(freq[S[i] - 'a'] == 0)
+                --distinctCount;
+            
+            if(distinctCount == 0){
+                ans.push_back(i - beg);
+                beg = i;
+            }
+            ++i;
+        }
+        ans[0]++;
+        return ans;
+    }
+};
