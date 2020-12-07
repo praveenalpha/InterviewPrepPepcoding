@@ -1,0 +1,20 @@
+import java.util.*;
+    
+    public class Main{
+    
+    public static void main(String[] args) {
+      // write your code here  
+      Scanner scn = new Scanner(System.in);
+      int divisor = scn.nextInt();
+      int dividend = scn.nextInt();
+      int n = divisor*dividend,rem=dividend%divisor;
+      while(dividend % divisor != 0){
+          rem = dividend%divisor;
+          dividend = divisor;
+          divisor = rem;
+      }
+      System.out.println(rem);
+      System.out.println(n/rem);
+      
+     }
+    }
