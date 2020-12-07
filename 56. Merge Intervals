@@ -1,0 +1,27 @@
+class Solution {
+public:
+    static bool comparator(vector<int> a, vector<int> b){
+        return a < b;
+    }
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(),intervals.end(),comparator);
+        vector<vector<int>> res;
+        int i=0,j=1;
+        vector<int> p;
+        while(j <= intervals.size()){
+            p = intervals[i];
+            while(j < intervals.size() && p[1] >= intervals[j][0]){
+                p[1] = max(p[1], intervals[j][1]);
+                ++j;
+            }
+            if(j == intervals.size()){
+                res.push_back(p);
+                return res;
+            }
+            res.push_back(p);
+            i=j;
+            ++j;
+        }
+        return res;
+    }
+};
