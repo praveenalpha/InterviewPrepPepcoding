@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int consecutiveNumbersSum(int N) {
+        int count = 0;
+        for(int n=1;(((n)*(n+1))/2) <= N;n++){
+            double a = ((double)N/(double)n) + ((double)1/(double)2) - ((double)n/(double)2);
+            if(a > 0 && fmod(a,1) == 0 ){
+                count++;
+            }
+        }
+        return count;
+    }
+};
