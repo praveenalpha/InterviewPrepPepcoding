@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int D) {
+        int high = 0 , low = INT_MIN,ans = INT_MAX;
+        for(int w:weights){
+            high+=w;
+            low = max(w, low);
+        }
+        while(low <= high){
+            int mid = low + ((high - low) / 2);
+            int currDay = 1, currW = 0, i=0;
+            while(i < weights.size()){
+                currW += weights[i];
+                if(currW > mid){
+                    currDay++;
+                    currW = weights[i];
+                }
+                i++;
+                if(currDay > D)
+                    break;
+            }
+            if(currDay > D){
+                low = mid+1;
+            }
+            else{
+                ans = min(ans,mid);
+                high = mid-1;
+            }
+        }
+        return ans;
+    }
+};
