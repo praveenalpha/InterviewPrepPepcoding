@@ -1,0 +1,38 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int anyBaseToDecimal(int n, int b){
+      int ans=0 ,place = 0;
+      while(n > 0){
+          int lastDigit = n%10;
+          ans += lastDigit*(pow(b,place));
+          place++;
+          n/=10;
+      }
+      return ans;
+  }
+int decimalToAnyBase(int n, int b){
+       int ans = 0,place = 0,pow=1;
+       while(n > 0){
+           int rem = n%b;
+           ans = ans + rem * pow;
+           pow*=10;
+           
+           n/=b;
+           place++;
+       }
+       return ans;
+   }
+int main() {
+    int sn,sb,db;
+    cin>>sn>>sb>>db;
+    int decimalForm = anyBaseToDecimal(sn,sb);
+    int res = decimalToAnyBase(decimalForm,db);
+    cout<<res;
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
+    return 0;
+}
