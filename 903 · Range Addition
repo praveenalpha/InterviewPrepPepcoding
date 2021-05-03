@@ -1,0 +1,26 @@
+class Solution {
+public:
+    /**
+     * @param length: the length of the array
+     * @param updates: update operations
+     * @return: the modified array after all k operations were executed
+     */
+    vector<int> getModifiedArray(int length, vector<vector<int>> &updates) {
+        // Write your code here
+        vector<int> ans(length);
+        int q = updates.size();
+        for(int i=0;i<q;i++){
+            int si = updates[i][0];
+            int ei = updates[i][1];
+            int val = updates[i][2];
+            ans[si] += val;
+            if(ei < length-1){
+                ans[ei+1] -= val;
+            }
+        }
+        for(int i=1;i<length;i++){
+            ans[i] += ans[i-1];
+        }
+        return ans;
+    }
+};
