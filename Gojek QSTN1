@@ -1,0 +1,31 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+#include<limits>
+#include<stack>
+using namespace std;
+
+int main(){
+    int t;
+    cin>>t;
+    for(int testCase = 1; testCase <= t; testCase++){
+        int a, b, k;
+        cin>>a>>b>>k;
+        int first_smallest_multiple;
+        if(a % k == 0){
+            first_smallest_multiple = a;
+        }
+        else{
+            first_smallest_multiple = a + ( k - ( a % k ) );
+        }
+
+        int ans = 0;
+        while(a <= first_smallest_multiple && first_smallest_multiple <= b){
+            ans++;
+            first_smallest_multiple += ( k );
+        }
+        cout<<"Case "<<testCase<<": "<<ans;
+    }
+    return 0;
+}
