@@ -1,0 +1,134 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+#include<limits>
+#include<stack>
+using namespace std;
+
+int main(){
+    int t;
+    cin>>t;
+    for(int testCase = 1; testCase <= t; testCase++){
+        int n, m;
+        cin>>n>>m;
+        int ans = 0;
+        vector<string> grid;
+        for(int i=0;i<n;i++){
+            string temp;
+            cin>>temp;
+            grid.push_back(temp);
+        }
+        string w;
+        cin>>w;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j] == w[0]){
+                    int k=1, current_row, current_col;
+
+                    // north
+                    current_row = i - 1;
+                    current_col = j;
+                    while(k<w.length() && current_row  >= 0 && grid[current_row][current_col] == w[k]){
+                        k++;
+                        current_row--;
+                    }
+                    if(k == w.length()){
+                        ans++;
+                    }
+
+                    // north-east
+                    k=1;
+                    current_row = i - 1;
+                    current_col = j + 1;
+                    while(k < w.length() && current_row >= 0 && current_col < m && grid[current_row][current_col] == w[k]){
+                        k++;
+                        current_col++;
+                        current_row--;
+                    }
+                    if(k == w.length()){
+                        ans++;
+                    }
+                    
+                    // east
+                    k=1;
+                    current_row = i;
+                    current_col = j + 1;
+                    while(k < w.length() && current_col < m && grid[current_row][current_col] == w[k]){
+                        k++;
+                        current_col++;
+                    }
+                    if(k == w.length()){
+                        ans++;
+                    }
+
+                    // south-east
+                    k = 1;
+                    current_row = i + 1;
+                    current_col = j + 1;
+                    while( k < w.length() && current_row < n && current_col < m && grid[current_row][current_col] == w[k]){
+                        k++;
+                        current_row++;
+                        current_col++;
+                    }
+                    if(k == w.length()){
+                        ans++;
+                    }
+
+                    // south
+                    k = 1;
+                    current_row = i + 1;
+                    current_col = j;
+                    while(k<w.length() && current_row < n && grid[current_row][current_col] == w[k]){
+                        k++;
+                        current_row++;
+                    }
+                    if(k == w.length()){
+                        ans++;
+                    }
+
+                    // south-west
+                    k=1;
+                    current_row = i + 1;
+                    current_col = j - 1;
+                    while(k < w.length() && current_row < n && current_col >= 0 && grid[current_row][current_col] == w[k]){
+                        k++;
+                        current_row++;
+                        current_col--;
+                    }
+                    if(k == w.length()){
+                        ans++;
+                    }
+
+                    // west
+                    k = 1;
+                    current_row = i;
+                    current_col = j - 1;
+                    while(k < w.length() && current_col >= 0 && grid[current_row][current_col] == w[k]){
+                        k++;
+                        current_col--;
+                    }
+                    if(k == w.length()){
+                        ans++;
+                    }
+
+                    // north-west
+                    k = 1;
+                    current_row = i - 1;
+                    current_col = j - 1;
+                    while(k < w.length() && current_row >= 0 && current_col >= 0 && grid[current_row][current_col] == w[k]){
+                        k++;
+                        current_row--;
+                        current_col--;
+                    }
+                    if(k == w.length()){
+                        ans++;
+                    }
+
+                }
+            }
+        }
+        cout<<"Case "<<testCase<<": "<<ans;
+    }
+    return 0;
+}
