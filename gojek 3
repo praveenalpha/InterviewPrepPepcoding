@@ -1,0 +1,108 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+#include<limits>
+#include<stack>
+using namespace std;
+
+void dfs(vector<string>& grid, int i, int j,int n, int m,char ch, vector<vector<bool>>& is_visited, bool& ambiguous){
+    is_visited[i][j] = true;
+
+    int row, col;
+    row = i -1;
+    col = j;
+    if(row >= 0 && is_visited[row][col] == false && grid[row][col] != '#'){
+        if(grid[row][col] == '.'){
+            grid[row][col] = ch;
+        }
+        else if(grid[row][col] != ch){
+            ambiguous = true;
+        }
+        
+        dfs(grid, row, col, n, m, ch, is_visited, ambiguous);
+    }
+
+    row = i;
+    col = j + 1;
+    if(col < m && is_visited[row][col] ==false && grid[row][col] != '#'){
+        if(grid[row][col] == '.'){
+            grid[row][col] = ch;
+        }
+        else if(grid[row][col] != ch){
+            ambiguous = true;
+        }
+        
+        dfs(grid, row, col, n, m, ch, is_visited, ambiguous);
+    }
+
+    row = i + 1;
+    col = j;
+    if(row < n && is_visited[row][col] ==false && grid[row][col] != '#'){
+        if(grid[row][col] == '.'){
+            grid[row][col] = ch;
+        }
+        else if(grid[row][col] != ch){
+            ambiguous = true;
+        }
+        
+        dfs(grid, row, col, n, m, ch, is_visited, ambiguous);
+    }
+    
+    row = i;
+    col = j - 1;
+    if(col >= 0 && is_visited[row][col] ==false && grid[row][col] != '#'){
+        if(grid[row][col] == '.'){
+            grid[row][col] = ch;
+        }
+        else if(grid[row][col] != ch){
+            ambiguous = true;
+        }
+        
+        dfs(grid, row, col, n, m, ch, is_visited, ambiguous);
+    }
+    
+}
+int main(){
+    int t;
+    cin>>t;
+    vector<pair<int, int>> dir = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+    for(int testCase = 1; testCase <= t; testCase++){
+        int n, m;
+        cin>>n>>m;
+        vector<string> grid;
+        for(int i=0;i<n;i++){
+            string temp;
+            cin>>temp;
+            grid.push_back(temp);
+        }
+        
+        vector<int> freq(26);
+        bool ambiguous = false;
+        int conflict = 0;
+        vector<vector<bool>> is_visited(n, vector<bool> (m));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(is_visited[i][j] == false && grid[i][j] != '#' && grid[i][j] != '.'){ 
+                    ambiguous = false;
+                    freq[grid[i][j] - 'a']++;
+                    dfs(grid, i, j, n, m, grid[i][j], is_visited, ambiguous);
+                    if(ambiguous){
+                        conflict++;
+                        freq[grid[i][j] - 'a']--;
+                    }
+
+                }
+            }
+        }
+        
+        cout<<"Case "<<testCase<<": "<<endl;
+        for(int i=0;i<26;i++){
+            if(freq[i] > 0){
+                cout<<(char)('a' + i)<<" "<<freq[i]<<endl;
+            }
+        }
+            cout<<"contested "<<conflict<<endl;
+    }
+    return 0;
+}
