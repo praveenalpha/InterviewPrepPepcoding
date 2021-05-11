@@ -1,0 +1,37 @@
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        
+        int n1 = num1.length(), n2 = num2.length();
+        vector<int> ans(n1+n2);
+        
+        for(int i=n2-1;i>=0;i--){
+            for(int j=n1-1;j>=0;j--){
+                int idx1 = i + j;
+                int idx2 = i + j + 1;
+                
+                int val = ( (num1[j] - '0') * (num2[i] - '0') ) + ans[idx2];
+                
+                int rem = val % 10;
+                int quo = val / 10;
+                
+                ans[idx2] = rem;
+                ans[idx1] += quo;
+            }
+        }
+        
+        string str = "";
+        int i = 0;
+        while( i < ans.size() && ans[i] == 0){
+            i++;
+        }
+        while(i < ans.size()){
+            str += to_string(ans[i]);
+            i++;
+        }
+        if(str.length() == 0){
+            return "0";
+        }
+        return str;
+    }
+};
