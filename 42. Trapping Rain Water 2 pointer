@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int totalWater = 0;
+        int n=height.size();
+        int i=0, j=n-1, prefixMax = 0, suffixMax = 0 ;
+        while(i < j){
+            prefixMax = max(prefixMax, height[i]);
+            suffixMax = max(suffixMax, height[j]);
+            int minTower = min(prefixMax, suffixMax);
+            if(height[i] <= height[j]){
+                totalWater += (minTower - height[i]);
+                i++;
+            }
+            else{
+                totalWater += (minTower - height[j]);
+                j--;
+            }
+            
+        }
+        return totalWater;
+    }
+};
