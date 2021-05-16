@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size(), sumGas = 0, sumCost = 0;
+        vector<int> diff(n);
+        vector<int> prefix(n);
+        int ansIdx = 0, minDiff;
+        for(int i=0;i<n;i++){
+            sumGas += gas[i];
+            sumCost += cost[i];
+            diff[i] = gas[i] - cost[i];
+            if(i == 0){
+                prefix[i] = diff[i];
+                minDiff = prefix[i];
+                ansIdx = 0;
+            }
+            else{
+                prefix[i] = prefix[i-1] + diff[i];
+                if(minDiff > prefix[i]){
+                    minDiff = prefix[i];
+                    ansIdx = i;
+                }
+            }
+        }
+        if(sumGas < sumCost)
+            return -1;
+        return (ansIdx+1)%n;
+    }
+};
