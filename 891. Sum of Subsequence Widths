@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int sumSubseqWidths(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        long long int n = nums.size(), ans=0, mod = 1000000007;
+        vector<long long int> dp(n);
+         // int[] dp = new int[nums.length];
+        dp[0] = 1;
+        for(int i=1;i<n;i++){
+            dp[i] = (dp[i-1]*2)%mod;
+        }
+        for(int i=0;i<n;i++){
+            long long int seqBefore = dp[i] % mod;
+            cout<<seqBefore<<", ";
+            long long int seqAfter = dp[n-i-1] % mod;
+            ans -= seqAfter*nums[i];
+            ans += seqBefore*nums[i];
+            ans = ans%mod;
+            
+        }
+        return (int)(ans)%mod;
+    }
+};
