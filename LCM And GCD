@@ -1,0 +1,36 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    vector<long long> lcmAndGcd(long long A , long long B) {
+        // code here
+        long long gcd, on1=A, on2=B;
+        while(B % A != 0){
+            long long rem = B % A;
+            B = A;
+            A = rem;
+        }
+        gcd = A;
+        long long lcm = (on1*on2) / gcd;
+        return {lcm, gcd};
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        long long A,B;
+        
+        cin>>A>>B;
+
+        Solution ob;
+        vector<long long> ans = ob.lcmAndGcd(A,B);
+        cout<<ans[0]<<" "<<ans[1]<<endl;
+    }
+    return 0;
+}  // } Driver Code Ends
