@@ -1,0 +1,26 @@
+class Solution {
+public:
+    /**
+     * @param nums: a list of integer
+     * @return: return a integer, denote  the maximum number of consecutive 1s
+     */
+    int findMaxConsecutiveOnes(vector<int> &nums) {
+        // write your code here
+        int prevZeroIdx = -1, oMax = 0, currMax = 0, i=0, n = nums.size();
+        while(i < n){
+            if(nums[i] == 0){
+                oMax = max(oMax, currMax);
+                currMax = i - (prevZeroIdx + 1);
+                currMax++;
+                prevZeroIdx = i;
+                i++;
+            }
+            else{
+                oMax = max(oMax, currMax);
+                currMax++;
+                i++;
+            }
+        }
+        return oMax;
+    }
+};
