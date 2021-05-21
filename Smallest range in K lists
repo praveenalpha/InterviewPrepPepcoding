@@ -1,0 +1,89 @@
+// { Driver Code Starts
+#include<iostream>
+#include<limits.h>
+using namespace std;
+#define N 1000
+
+pair<int,int> findSmallestRange(int arr[][N], int n, int k);
+
+// Driver program to test above functions
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, k;
+        cin>>n>>k;
+        int arr[N][N];
+        pair<int,int> rangee;
+        for(int i=0; i<k; i++)
+            for(int j=0; j<n; j++)
+                cin>>arr[i][j];
+	    rangee = findSmallestRange(arr, n, k);
+	    cout<<rangee.first<<" "<<rangee.second<<"\n";
+    }   
+	return 0;
+}
+
+// } Driver Code Ends
+
+
+// you are required to complete this function 
+// function should print the required range
+pair<int,int> findSmallestRange(int arr[][N], int n, int k)
+{
+    int minEle = INT_MAX, maxEle = INT_MIN, oMin = INT_MAX;
+    // vector<vector<int>> pq(k, vector<int> (3));
+    int pq[k][3];
+    for(int i=0;i<k;i++){
+        pq[i][0] = arr[i][0];
+        pq[i][1] = i;
+        pq[i][2] = 0;
+        
+    }
+    pair<int, int> ans;
+    while(true){
+        minEle = pq[0][0];
+        maxEle = pq[0][0];
+        int minVector[3];
+        minVector[0] = pq[0][0];
+        minVector[1] = pq[0][1];
+        minVector[2] = pq[0][2];
+        
+        int maxVector[3];
+        maxVector[0] = pq[0][0];
+        maxVector[1] = pq[0][1];
+        maxVector[2] = pq[0][2];
+        
+        for(int i=0;i<k;i++){
+            if(minEle > pq[i][0]){
+                minEle = pq[i][0];
+                minVector[0] = pq[i][0];
+                minVector[1] = pq[i][1];
+                minVector[2] = pq[i][2];
+            }
+            if(maxEle < pq[i][0]){
+                maxEle = pq[i][0];
+                maxVector[0] = pq[i][0];
+                maxVector[1] = pq[i][1];
+                maxVector[2] = pq[i][2];
+            }
+        }
+        
+        if(oMin > maxEle - minEle){
+            oMin = maxEle - minEle;
+            ans.first = minEle;
+            ans.second = maxEle;
+        }
+        
+        int i = minVector[1], j = minVector[2];
+        if(j+1 >= n)
+            break;
+        pq[i][0] = arr[i][j+1];
+        pq[i][1] = i;
+        pq[i][2] = j+1;
+        
+    }
+    return ans;
+}
