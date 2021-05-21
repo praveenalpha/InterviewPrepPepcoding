@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        int k = nums.size(), minEle, maxEle=INT_MIN, oMin=INT_MAX;
+        vector<int> ans(2);
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>> > pq;
+        for(int i=0;i<k;i++){
+            pq.push({nums[i][0], i, 0});
+            maxEle = max(maxEle, nums[i][0]);
+        }
+        
+        while(true){
+            vector<int> rnode = pq.top();
+            int val = rnode[0], i = rnode[1], j = rnode[2];
+            pq.pop();
+            minEle = val;
+            if(oMin > (maxEle - minEle)){
+                ans[0] = minEle;
+                ans[1] = maxEle;
+                oMin = maxEle - minEle;
+            }
+            if(j+1 >= nums[i].size()){
+                break;
+            }
+            
+            maxEle = max(maxEle, nums[i][j+1]);
+            pq.push({nums[i][j+1], i, j+1});
+        }
+        return ans;
+    }
+};
