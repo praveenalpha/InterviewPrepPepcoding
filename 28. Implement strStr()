@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int n1 = haystack.length(), n2 = needle.length();
+        if(n2 == 0)
+            return 0;
+        if(n1 == 0)
+            return -1;
+        needle += "#";
+        haystack = needle + haystack;
+        int  i = 1, len = 0, ans=INT_MAX;
+        vector<int> lps(n1+n2+1);
+        while(i < n1+n2+1){
+            if(haystack[i] == haystack[len]){
+                len++;
+                lps[i] = len;
+                if(n2 == len){
+                    return i - (n2 + len) ;
+                }
+                i++;
+            }
+            else{
+                if(len>0){
+                    len = lps[len-1];
+                }             
+                else{
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+        return -1;
+    }
+};
