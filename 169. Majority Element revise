@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int i=0, n=nums.size(), ele=0, count=0;
+        while(i<n){
+            if(count == 0)
+                ele = nums[i];
+            if(nums[i] == ele){
+                count++;
+                i++;
+            }
+                
+            else{
+                count--;
+                i++;
+            }
+                
+        }
+        return ele;
+    }
+};
