@@ -1,0 +1,38 @@
+class Solution {
+public:
+    /**
+     * @param grid: a 2D grid
+     * @return: the minimize travel distance
+     */
+    int minTotalDistance(vector<vector<int>> &grid) {
+        int n1 = grid.size(), n2 = grid[0].size();
+        // find x cord
+        vector<int> xcord;
+        for(int i=0;i<n1;i++){
+            for(int j=0;j<n2;j++){
+                if(grid[i][j] == 1)
+                    xcord.push_back(i);
+            }
+        }
+        // find y cord
+        vector<int> ycord;
+        for(int j=0;j<n2;j++){
+            for(int i=0;i<n1;i++){
+                if(grid[i][j] == 1)
+                    ycord.push_back(j);
+            }
+        }
+        // find median
+        int x = xcord[xcord.size()/2];
+        int y = ycord[ycord.size()/2];
+        int dist=0;
+        // find dist
+        for(int x1:xcord){
+            dist+= abs(x - x1);
+        }
+        for(int y1:ycord){
+            dist+= abs(y - y1);
+        }
+        return dist;
+    }
+};
