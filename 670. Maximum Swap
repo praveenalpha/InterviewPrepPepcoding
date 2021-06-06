@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int maximumSwap(int num) {
+        int maxEle, maxIdx;
+        int left = -1, right = -1;
+        string str = to_string(num);
+        int n = str.length();
+        
+        if(n == 0 || n == 1)
+            return num;
+        
+        maxEle = str[n-1]-'0';
+        
+        for(int i=n-2;i>=0;i--){
+            
+            int digit = str[i] - '0';
+            if(maxEle < digit){
+                maxEle = digit;
+                maxIdx = i;
+                continue;
+            }
+            else if(maxEle == digit)
+                continue;
+            
+            left = i;
+            right = maxIdx;
+        }
+        
+        if(left == -1 || right == -1)
+            return num;
+        
+        
+        char temp = str[left];
+        str[left] = str[right];
+        str[right] = temp;
+        
+        int ans=0, mul=1;
+        for(int i=n-1;i>=0;i--){
+            int digit = str[i] - '0';
+            ans += (digit * mul);
+            mul *= 10;
+        }
+        return ans;
+    }
+};
