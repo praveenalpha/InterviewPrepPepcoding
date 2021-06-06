@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int reductionOperations(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        
+        int n = nums.size(), minValIdx = 0;
+        vector<int> dp(n, 0);
+        for(int i = 1;i<n;i++){
+            if(nums[minValIdx] == nums[i]){
+                minValIdx = i;
+            }
+        }
+        
+        int ans=0;
+        
+        for(int i = minValIdx+1;i<n;i++){
+            if(nums[i] == nums[i-1]){
+                dp[i] = dp[i-1];
+                ans+=dp[i];
+            }
+            else{
+                dp[i] = dp[i-1]+1;
+                ans+=dp[i];
+            }
+        }
+        return ans;
+    }
+};
