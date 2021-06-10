@@ -1,0 +1,58 @@
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param root: the given BST
+     * @param target: the given target
+     * @param k: the given k
+     * @return: k values in the BST that are closest to the target
+     */
+    vector<int> closestKValues(TreeNode * root, double x, int k) {
+        vector<int> ans;
+        traverse(root, ans, x, k);
+        return ans;
+    }
+    bool traverse(TreeNode* root, vector<int>& ans, double x, int k){
+        if(root == nullptr)
+            return false;
+        
+        bool left = traverse(root->left, ans, x, k);
+        if(left)
+            return true;
+
+        if(ans.size() < k){
+            ans.push_back(root->val);
+        }
+        else{
+            bool flag = false;
+            if(abs(x - root->val) < abs(x - ans[0])){
+                flag = true;
+                ans.push_back(root->val);
+                ans.erase(ans.begin() + 0);
+            }
+
+            if(flag == false)
+                return true;
+        }
+
+        bool right = traverse(root->right, ans, x, k);
+        if(right)
+            return true;
+        
+        return false;
+
+
+    }
+};
