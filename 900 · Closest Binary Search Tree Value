@@ -1,0 +1,41 @@
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param root: the given BST
+     * @param target: the given target
+     * @return: the value in the BST that is closest to the target
+     */
+    int closestValue(TreeNode * root, double x) {
+        int ans = root->val;
+        traverse(root, ans, x);
+        return ans;
+    }
+    void traverse(TreeNode* root, int& ans, double x){
+        if(root == nullptr)
+            return;
+
+        if(abs(ans - x) > abs(root->val - x)){
+            ans=root->val;
+        }
+
+        if(root->val > x){
+            traverse(root->left, ans, x);
+        }
+        else{
+            traverse(root->right, ans, x);
+        }
+    }
+};
