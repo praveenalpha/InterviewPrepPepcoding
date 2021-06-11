@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& pre, vector<int>& in) {
+        int is = 0, ie = in.size() - 1, ps = 0, pe = pre.size()-1;
+        TreeNode* root = construct(pre, ps, pe, in, is, ie);
+        return root;
+    }
+    TreeNode* construct(vector<int>& pre, int ps, int pe, vector<int>& in, int is, int ie){
+        if(ps > pe || is > ie)
+            return nullptr;
+        TreeNode* root = new TreeNode();
+        root->val = pre[ps];
+        
+        int idx = -1;
+        for(int i=is;i<=ie;i++){
+            if(in[i] == pre[ps]){
+                idx = i;
+                break;
+            }
+        }
+        
+        int size = idx - is;
+        
+        root->left = construct(pre, ps+1, ps + size , in, is, idx-1);
+        root->right = construct(pre, ps + 1 + size, pe, in, idx+1, ie);
+        return root;
+    }
+};
