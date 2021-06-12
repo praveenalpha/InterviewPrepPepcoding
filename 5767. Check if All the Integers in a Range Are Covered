@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isCovered(vector<vector<int>>& ranges, int left, int right) {
+        sort(ranges.begin(), ranges.end());
+        
+        int n = ranges.size(), i = 0;
+        
+        while(i < n){
+            if(left > right){
+                return true;
+            }
+            if(ranges[i][0] <= left && left <= ranges[i][1]){
+                left++;
+            }
+            else if(left > ranges[i][1]){
+                i++;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }
+};
