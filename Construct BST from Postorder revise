@@ -1,0 +1,74 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+	int data;
+	struct Node *left;
+	struct Node *right;
+	
+	Node(int x){
+	    data = x;
+	    left = NULL;
+	    right = NULL;
+	}
+};
+
+Node *constructTree (int [], int );
+
+void printInorder (Node* node)
+{
+	if (node == NULL)
+		return;
+	printInorder(node->left);
+	printf("%d ", node->data);
+	printInorder(node->right);
+	
+
+}
+
+int main ()
+{   
+    int t,n;
+   scanf("%d",&t);
+    while(t--){
+        scanf("%d",&n);
+        int post[n];
+        for(int i=0;i<n;i++)
+        scanf("%d",&post[i]);
+
+    Node* root = constructTree(post, n);
+
+	printInorder(root);
+    printf("\n");
+}
+	return 0;
+}
+// } Driver Code Ends
+
+
+/*struct Node
+{
+	int data;
+	Node *left, *right;
+};*/
+int i;
+Node* iterate(int post[], long long int mn, long long int mx){
+    if(i == -1)
+        return nullptr;
+    if(mn <= post[i] && post[i] <= mx){
+        Node* root = new Node(post[i]);
+        i--;
+        root->right = iterate(post, root->data + 1, mx);
+        root->left = iterate(post, mn, root->data-1);
+        return root;
+    }
+    return nullptr;
+}
+Node *constructTree (int post[], int size)
+{   i=size-1;
+    long long int mn = INT_MIN, mx = INT_MAX;
+    Node* root = iterate(post, mn, mx);
+    return root;
+}
