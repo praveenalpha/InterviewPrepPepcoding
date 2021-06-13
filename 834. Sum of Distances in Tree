@@ -1,0 +1,83 @@
+class Solution {
+public:
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> tree(n, vector<int> ());
+        for(vector<int> edge : edges){
+            int u = edge[0];
+            int v = edge[1];
+            tree[u].push_back(v);
+            tree[v].push_back(u);
+        }
+        
+        vector<int> count(n);
+        vector<int> ans(n);
+        vector<bool> vis(n);
+        
+        
+        int src = 0;
+        createCountArr(tree, count, src, vis);
+        levelorder(tree, vis, src, ans, count);
+        anscalc(tree, vis, src, ans, count, n);
+        for(int e:count)
+            cout<<e<<",";
+        return ans;
+    }
+    void anscalc(vector<vector<int>>& tree, vector<bool>& vis, int src, vector<int>& ans, vector<int>& count, int n){
+        queue<int> q;
+        q.push(src);
+        vis[src] = true;
+        while(q.size()){
+            int size = q.size();
+            while(size--){
+                int rnode = q.front();
+                q.pop();
+                
+                
+                vector<int> children = tree[rnode];
+                for(int child : children){
+                   if(vis[child] == false){
+                       ans[child] = ans[rnode] - count[child] + (n - count[child]);
+                       vis[child] = true;
+                       q.push(child);
+                   } 
+                }
+            }
+        }
+    }
+    int createCountArr(vector<vector<int>>& tree, vector<int>& count, int src, vector<bool> vis){
+        vis[src] = true;
+        vector<int> children = tree[src];
+        for(int child : children){
+            if(vis[child] == false){
+                count[src] += createCountArr(tree, count, child, vis);
+            }
+        }
+        count[src]++;
+        return count[src];
+    }
+    void levelorder(vector<vector<int>>& tree, vector<bool> vis, int src, vector<int>& ans, vector<int>& count){
+        queue<int> q;
+        q.push(src);
+        int level = 0;
+        vis[src] = true;
+        while(q.size()){
+            int size = q.size();
+            while(size--){
+                int rnode = q.front();
+                q.pop();
+                ans[src] += level;
+                vector<int> children = tree[rnode];
+                for(int child : children){
+                    if(vis[child] == false){
+                        vis[child] = true;
+                        q.push(child);
+                    }
+                }
+                
+            }
+            level++;
+        }
+        
+    }
+    
+};
