@@ -1,0 +1,48 @@
+class Solution {
+public:
+    /**
+     * @param grid: a list of lists of integers
+     * @return: return an integer, denote the number of distinct islands
+     */
+    int numberofDistinctIslands(vector<vector<int>> &grid) {
+        unordered_set<string> s1;
+        string str="";
+        int n1 = grid.size(), n2 = grid[0].size();
+        for(int i=0;i<n1;i++){
+            for(int j=0;j<n2;j++){
+                if(grid[i][j] == 1){
+                    str += "x";
+                    dfs(grid, i, j, n1, n2, str);
+                    s1.insert(str);
+                    str = "";
+                }
+            }
+        }
+        return s1.size();
+    }
+
+    void dfs(vector<vector<int>>& grid, int i, int j, int n1, int n2, string& str){
+        grid[i][j] = 0;
+        if(i - 1 >= 0 && grid[i-1][j] == 1){
+            str += "t";
+            dfs(grid, i-1, j, n1, n2, str);
+        }
+
+        if(j + 1 < n2 && grid[i][j+1] == 1){
+            str += "r";
+            dfs(grid, i, j+1, n1, n2, str);
+        }
+
+        if(i + 1 < n1 && grid[i+1][j] == 1){
+            str += "d";
+            dfs(grid, i+1, j, n1, n2, str);
+        }
+
+        if(j - 1 >= 0 && grid[i][j-1] == 1){
+            str += "l";
+            dfs(grid, i, j-1, n1, n2, str);
+        }
+
+        str += "b";
+    }
+};
