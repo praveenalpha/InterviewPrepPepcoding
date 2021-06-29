@@ -1,0 +1,48 @@
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        // -1 -> unvisited
+        // -2 -> grp A
+        // -3 -> grp B
+        int n = graph.size();
+        vector<int> vis(n, -1);
+        queue<int> q;
+        
+        for(int i=0;i<n;i++){
+            if(vis[i] != -1){
+                continue;
+            }
+            q.push(i);
+            vis[i] = -2;    
+            while(q.size()){
+            int size = q.size();
+            while(size--){
+                int parent = q.front();
+                
+                q.pop();
+                for(int child : graph[parent]){
+                    if(vis[parent] == -2){
+                        if(vis[child] == -2)
+                            return false;
+                        if(vis[child] == -1)
+                            q.push(child);
+                        vis[child] = -3;
+
+                    }
+                    else if(vis[parent] == -3){
+                        if(vis[child] == -3){
+                            return false;
+                        }
+                        if(vis[child] == -1)
+                            q.push(child);
+                        vis[child] = -2;
+                        
+                    }
+                }
+            }
+        }
+        }
+        
+        return true;
+    }
+};
