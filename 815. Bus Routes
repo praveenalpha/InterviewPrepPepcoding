@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        if(source == target)
+            return 0;
+        
+        unordered_map<int, vector<int> > bussesPassingThroughBusStop;
+        
+        for(int i=0;i<routes.size();i++){
+            for(int j=0;j<routes[i].size();j++){
+                bussesPassingThroughBusStop[routes[i][j]].push_back(i);
+            }
+        }
+        
+        queue<pair<int, int> > q;
+        q.push({source, 0});
+        
+        unordered_set<int> visBusStop;
+        unordered_set<int> visBusNumber;
+        visBusStop.insert(source);
+        
+        while(q.size()){
+        
+            pair<int, int> rpair = q.front();
+            q.pop();
+
+            if(rpair.first == target)
+                return rpair.second;
+
+            vector<int> busses = bussesPassingThroughBusStop[rpair.first];
+
+            for(int bus : busses){
+                if(visBusNumber.find(bus) == visBusNumber.end()){
+                    vector<int> allBusStopThisBusCanGo = routes[bus];
+
+                    for(int allStops : allBusStopThisBusCanGo){
+                        if(visBusStop.find(allStops) == visBusStop.end()){
+                            visBusStop.insert(allStops);
+                            q.push({allStops, rpair.second + 1});
+                        }
+                    }    
+                    visBusNumber.insert(bus);
+
+                }
+            }
+        }
+        
+        
+        return -1;
+    }
+};
