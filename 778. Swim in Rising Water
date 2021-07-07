@@ -1,0 +1,65 @@
+class triplet{
+  public:
+    int i;
+    int j;
+    int sum;
+    int mx;
+    triplet(int i, int j,  int mx){
+        this->i = i;
+        this->j = j;
+        this->mx = mx;
+    }
+};
+class compare{
+public:
+  bool operator()(triplet& a, triplet& b){
+      return a.mx > b.mx;
+  }  
+};
+
+class Solution {
+public:
+    
+    int swimInWater(vector<vector<int>>& grid) {
+        priority_queue<triplet, vector<triplet> , compare > pq;
+        
+        pq.push(triplet(0, 0, grid[0][0]));
+        
+        int n1 = grid.size(), n2 = grid[0].size();
+        vector<vector<bool>> vis(n1, vector<bool> (n2, false));
+        
+        while(pq.size()){
+            triplet rnode = pq.top();
+            pq.pop();
+            if(rnode.i == n1-1 && rnode.j == n2-1)
+                return rnode.mx;
+            vis[rnode.i][rnode.j] = true;
+            
+            if(rnode.j + 1 < n2){
+                if(vis[rnode.i][rnode.j + 1] == false){
+                    pq.push(triplet(rnode.i, rnode.j+1, max(rnode.mx, grid[rnode.i][rnode.j+1])));
+                }
+            }
+            if(rnode.i + 1 < n1){
+                if(vis[rnode.i + 1][rnode.j] == false){
+                    pq.push(triplet(rnode.i+1, rnode.j, max(rnode.mx, grid[rnode.i + 1][rnode.j])));
+                }
+            }
+            if(rnode.j - 1 >= 0){
+                if(vis[rnode.i][rnode.j - 1] == false){
+                    pq.push(triplet(rnode.i, rnode.j-1, max(rnode.mx, grid[rnode.i][rnode.j-1])));
+                }
+            }
+            if(rnode.i - 1 >= 0){
+                if(vis[rnode.i - 1][rnode.j] == false){
+                    pq.push(triplet(rnode.i-1, rnode.j, max(rnode.mx, grid[rnode.i-1][rnode.j])));
+                }
+            }
+            
+        }
+        
+        
+        return -1;
+        
+    }
+};
