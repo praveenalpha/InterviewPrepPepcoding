@@ -1,0 +1,95 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+
+class Solution
+{
+	public:
+	//Function to find number of strongly connected components in the graph.
+	
+	void dfs1(vector<int> adj[], int i, vector<bool>& vis, stack<int>& st){
+	    vis[i] = true;
+	    
+	    for(int nbr : adj[i]){
+	        if(vis[nbr] == false){
+	            dfs1(adj, nbr, vis, st);
+	        }
+	    }
+	    st.push(i);
+	}
+	void dfs2(vector<vector<int>>& graph, int i, vector<bool>& vis){
+	    vis[i] = true;
+	    
+	    for(int nbr : graph[i]){
+	        if(vis[nbr] == false)
+	            dfs2(graph, nbr, vis);
+	    }
+	}
+    int kosaraju(int V, vector<int> adj[])
+    {
+        stack<int> st;
+        vector<bool> vis(V);
+        for(int i=0;i<V;i++){
+            if(vis[i] == false){
+                dfs1(adj, i, vis, st);
+            }
+        }
+        
+        vector<vector<int>> graphT(V, vector<int> ());
+        for(int i=0;i<V;i++){
+            for(int nbr : adj[i]){
+                graphT[nbr].push_back(i);
+            }
+        }
+        int ans = 0;
+        for(int i=0;i<V;i++){
+            vis[i] = false;
+        }
+        while(st.size()){
+            int i = st.top();
+            st.pop();
+            if(vis[i]==false){
+                dfs2(graphT, i, vis);
+                ans++;
+                
+            }
+        }
+        
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+
+int main()
+{
+    
+    int t;
+    cin >> t;
+    while(t--)
+    {
+    	int V, E;
+    	cin >> V >> E;
+
+    	vector<int> adj[V];
+
+    	for(int i = 0; i < E; i++)
+    	{
+    		int u, v;
+    		cin >> u >> v;
+    		adj[u].push_back(v);
+    	}
+
+    	Solution obj;
+    	cout << obj.kosaraju(V, adj) << "\n";
+    }
+
+    return 0;
+}
+
+  // } Driver Code Ends
