@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<vector<int>> dir = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    
+    void dfs(vector<vector<int>>& grid, int i, int j, int color, int n1, int n2, vector<vector<bool>>& vis, int ctf,vector<vector<int>>& ans){
+        vis[i][j] = true;
+        bool inBound = false;
+        
+        for(int x=0;x<4;x++){
+            int r = dir[x][0] + i;
+            int c = dir[x][1] + j;
+            
+            if(r >= 0 && r < n1 && c >= 0 && c < n2){
+                if(grid[r][c] != ctf){
+                    inBound = true;
+                }
+                
+                if( grid[r][c] == ctf && vis[r][c] == false)
+                    dfs(grid, r, c, color, n1, n2, vis, ctf, ans);
+            }
+            
+        }
+        
+        if(i == 0 || i == n1 - 1 || j == 0 || j == n2 - 1 || inBound)    {
+                ans[i][j] = color;
+        }
+        
+        
+        
+    }
+    
+    vector<vector<int>> colorBorder(vector<vector<int>>& grid, int r0, int c0, int color) {
+        int n1 = grid.size(), n2 = grid[0].size(), ctf = grid[r0][c0];
+        vector<vector<int>> ans(n1, vector<int> (n2));
+        vector<vector<bool>> vis(n1, vector<bool> (n2));
+        dfs(grid, r0, c0, color, n1, n2, vis, ctf, ans);
+        for(int i=0;i<n1;i++){
+            for(int j=0;j<n2;j++){
+                if(ans[i][j] == 0){
+                    ans[i][j] = grid[i][j];
+                }
+            }
+        }
+        return ans;
+    }
+};
