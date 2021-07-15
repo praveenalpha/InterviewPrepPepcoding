@@ -1,0 +1,83 @@
+class Solution {
+public:
+    string alienOrder(vector<string>& words) {
+        unordered_map<char, unordered_set<char> > graph;
+        unordered_map<char, int> inDegree;
+        
+        int n = words.size();
+        
+        for(int i=0;i<n;i++){
+            int len = words[i].length(), j=0;
+            while(j < len){
+                char ch = words[i][j];
+                inDegree[ch] = 0;
+                j++;
+            }
+        }
+        for(int i=0;i<n-1;i++){
+            string curr = words[i];
+            string next = words[i+1];
+            
+            int len = min(curr.length(), next.length()), j = 0;
+            bool flag = false;
+            while(j < len){
+                if(curr[j] != next[j]){
+                    char u = curr[j], v = next[j];
+                
+                    
+                    if(graph[u].find(v) == graph[u].end())
+                        inDegree[v] = inDegree[v] + 1;
+                    graph[u].insert(v);
+                    flag = true;
+                    break;
+                }
+                j++;
+            }
+            if(flag == false && curr.length() > next.length())
+                return "";
+        }
+        
+        // unordered_map<char, unordered_set<char> >:: iterator itr1;
+        // for(itr1 = graph.begin();itr1 != graph.end();itr1++){
+        //     cout<<itr1->first<<"-> ";
+        //     unordered_set<char>:: iterator itr2;
+        //     for(itr2 = itr1->second.begin();itr2 != itr1->second.end(); itr2++){
+        //         cout<<(*itr2)<<",";
+        //     }
+        //     cout<<endl;
+        // }
+        
+        // cout<<"indegree :"<<endl;
+        // unordered_map<char, int>:: iterator itr3;
+        // for(itr3 = inDegree.begin();itr3 != inDegree.end(); itr3++){
+        //     cout<<itr3->first<<" "<<itr3->second<<endl;
+        // }
+        unordered_map<char, int> :: iterator itr;
+        queue<char> q;
+        for(itr = inDegree.begin(); itr != inDegree.end(); itr++){
+            if(itr->second == 0)
+                q.push(itr->first);
+        }
+        
+        string ans = "";
+        int count = 0;
+        // cout<<"ans :"<<endl;
+        while(q.size()){
+            char ch = q.front();
+            q.pop();
+            count++;
+            // cout<<ch;
+            ans.push_back(ch);
+            
+            unordered_set<char> :: iterator itr2;
+            for(itr2=graph[ch].begin();itr2 != graph[ch].end();itr2++){
+                inDegree[*itr2] = inDegree[*itr2]-1;
+                if(inDegree[*itr2] == 0)
+                    q.push(*itr2);
+            }
+        }
+        if(count == inDegree.size())
+            return ans;
+        return "";
+    }
+};
