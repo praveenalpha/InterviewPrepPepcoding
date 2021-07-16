@@ -1,0 +1,58 @@
+class Solution {
+public:
+    int findParent(int x, vector<int>& parent){
+        if(parent[x] == x)
+            return x;
+        int temp = findParent(parent[x], parent);
+        parent[x] = temp;
+        return temp;
+    }
+    void unionOfParentArray(int u, int v,  vector<int>& parent,  vector<int>& rank,int& count){
+        int leaderOfU = findParent(u, parent);
+        int leaderOfV = findParent(v, parent);
+        
+        if(leaderOfU != leaderOfV){
+            if(rank[leaderOfU] > rank[leaderOfV]){
+                parent[leaderOfV] = leaderOfU;
+            }
+            else if(rank[leaderOfU] < rank[leaderOfV]){
+                parent[leaderOfU] = parent[leaderOfV];
+            }
+            else{
+                parent[leaderOfV] = leaderOfU;
+                rank[leaderOfU]++;
+            }
+            count--;
+        }
+    }
+    
+    vector<int> numIslands2(int m, int n, vector<vector<int>>& positions) {
+        vector<int> parent(m*n, -1);
+        vector<int> rank(m*n, 0);    
+        int count = 0;
+        vector<int> ans;
+        vector<vector<int>> dirA = {{0,1}, {1, 0}, {0, -1}, {-1, 0}};
+        
+        for(vector<int> position : positions){
+            int row = position[0], col = position[1];
+            int cellNo = row * n + col;
+            if(parent[cellNo] != -1){
+                ans.push_back(count);
+                continue;
+            }
+            parent[cellNo] = cellNo;
+            count++;    
+            
+            for(vector<int> dir : dirA){
+                int rowDash = row + dir[0], colDash = col + dir[1];
+                int cellDash = rowDash * n + colDash;
+                
+                if(rowDash >= 0 && rowDash < m && colDash >= 0 && colDash < n && parent[cellDash] != -1){
+                    unionOfParentArray(cellNo, cellDash, parent, rank, count);
+                }
+            }
+            ans.push_back(count);
+        }
+        return ans;
+    }
+};
