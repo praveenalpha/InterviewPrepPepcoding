@@ -1,0 +1,58 @@
+class Solution {
+public:
+    unordered_map<char, char> parent;
+    unordered_map<char, int> rank;
+    
+    char findPar(char x){
+        if(parent[x] == x)
+            return x;
+        parent[x] = findPar(parent[x]);
+        return parent[x];
+    }
+    void dsu(char u, char v){
+        char leaderOfU = findPar(u);
+        char leaderOfV = findPar(v);
+        
+        if(leaderOfU != leaderOfV){
+            if(rank[leaderOfU] > rank[leaderOfV]){
+                parent[leaderOfV] = leaderOfU;
+            }
+            else if(rank[leaderOfU] < rank[leaderOfV]){
+                parent[leaderOfU] = leaderOfV;
+            }
+            else{
+                parent[leaderOfU] = leaderOfV;
+                rank[leaderOfV]++;
+            }
+        }
+    }
+    bool equationsPossible(vector<string>& equations) {
+        
+        for(string st: equations){
+            char c1 = st[0], c2 = st[1], c3 = st[2], c4 = st[3];
+            parent[c1] = c1;
+            parent[c4] = c4;
+            rank[c1] = 0;
+            rank[c4] = 0;
+        }
+        
+        for(string st: equations){
+            char c1 = st[0], c2 = st[1], c3 = st[2], c4 = st[3];
+            
+            if(c2 == '='){
+                dsu(c1, c4);
+            }
+        }
+        for(string st: equations){
+            char c1 = st[0], c2 = st[1], c3 = st[2], c4 = st[3];
+            char p1 = findPar(c1);
+            char p2 = findPar(c4);
+            
+            if(c2 == '!'){
+                if(p1 == p2)
+                    return false;
+            }
+        }
+        return true;
+    }
+};
