@@ -1,0 +1,121 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution{
+    public:
+    bool checkIsAP(int arr[], int n)
+    {
+        int b = INT_MAX,a = INT_MAX;
+        unordered_set<int> s;
+        for(int i=0;i<n;i++){
+            s.insert(arr[i]);
+            if(arr[i] < a){
+                b = a;
+                a = arr[i];
+            }
+            else if(arr[i] < b){
+                b = arr[i];
+            }
+        }
+        
+        int cd = b - a;
+        int i=2;
+        while(s.find(b + cd) != s.end()){
+            i++;
+            b = b + cd;
+        }
+        if(i == n)
+            return true;
+            
+        return false;
+            
+    }
+
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int arr[n];
+        for(int i=0;i<n;i++)
+            cin>>arr[i];
+        
+        Solution ob;
+         (ob.checkIsAP(arr, n))? (cout << "YES" << endl) :
+                       (cout << "NO" << endl);   
+    }
+ 
+  return 0;
+}
+  // } Driver Code Ends// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution{
+    public:
+    bool checkIsAP(int arr[], int n)
+    {
+        int b = INT_MAX,a = INT_MAX;
+        unordered_set<int> s;
+        for(int i=0;i<n;i++){
+            s.insert(arr[i]);
+            if(arr[i] < a){
+                b = a;
+                a = arr[i];
+            }
+            else if(arr[i] < b){
+                b = arr[i];
+            }
+        }
+        
+        int cd = b - a;
+        int i=2;
+        while(s.find(b + cd) != s.end()){
+            i++;
+            b = b + cd;
+        }
+        if(i == n)
+            return true;
+            
+        return false;
+            
+    }
+
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int arr[n];
+        for(int i=0;i<n;i++)
+            cin>>arr[i];
+        
+        Solution ob;
+         (ob.checkIsAP(arr, n))? (cout << "YES" << endl) :
+                       (cout << "NO" << endl);   
+    }
+ 
+  return 0;
+}
+  // } Driver Code Ends
