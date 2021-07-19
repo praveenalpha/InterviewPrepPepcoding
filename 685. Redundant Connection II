@@ -1,0 +1,68 @@
+class Solution {
+public:
+    vector<int> parent;
+    vector<int> rank;
+    
+    int findPar(int x){
+        if(parent[x] == x)
+            return x;
+        parent[x] = findPar(parent[x]);
+        return parent[x];
+    }
+    bool dsu(int u, int v){
+        int lu = findPar(u);
+        int lv = findPar(v);
+        
+        if(lu == lv)
+            return true;
+        
+        if(rank[lu] > rank[lv])
+            parent[lv] = lu;
+        else if(rank[lu] < rank[lv])
+            parent[lu] = lv;
+        else{
+            parent[lu] = lv;
+            rank[lv]++;
+        }
+        return false;
+    }
+    vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) {
+        int V = edges.size();
+        parent.resize(V);
+        rank.resize(V);
+        vector<int> inDegree(V, -1);
+        int bl1 = -1, bl2 = -1;
+        
+        for(int i=0;i<V;i++)
+            parent[i] = i;
+        
+        for(int i=0;i<V;i++){
+            int u = edges[i][0] - 1;
+            int v = edges[i][1] - 1;
+            
+            if(inDegree[v] == -1){
+                inDegree[v] = i;
+            }
+            else{
+                bl1 = i;
+                bl2 = inDegree[v];
+            }
+        }
+        
+        for(int i=0;i<V;i++){
+            if(i == bl1)
+                continue;
+            int u = edges[i][0]-1;
+            int v = edges[i][1]-1;
+            
+            bool flag = dsu(u, v);
+            if(flag == true){
+                if(bl1 == -1)
+                    return edges[i];
+                else
+                    return edges[bl2];
+            }
+        }
+        return edges[bl1];
+    }
+};
