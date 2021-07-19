@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool hasGroupsSizeX(vector<int>& deck) {
+        unordered_map<int, int> mp;
+        int m = INT_MAX;
+        for(int e: deck){
+            if(mp.find(e) == mp.end()){
+                mp[e] = 1;
+            }
+            else{
+                mp[e]++;
+            }
+        }
+        
+        unordered_map<int, int> :: iterator itr = mp.begin();
+        unordered_map<int, int> :: iterator itr2 = mp.end();
+        int ans=itr->second;
+        for(itr; itr != itr2;itr++){
+            ans = __gcd(ans, itr->second);
+        }
+        if(ans > 1)
+            return true;
+        return false;
+    }
+};
