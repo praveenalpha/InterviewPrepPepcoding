@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int leastBricks(vector<vector<int>>& wall) {
+        unordered_map<int, int> mp;
+        int ans=0;
+        int n = wall.size();
+        int m = 0;
+        for(int i : wall[0])
+            m += i;
+        for(vector<int> row : wall){
+            int sum = 0;
+            for(int brick : row){
+                sum += brick;
+                if(mp.find(sum) == mp.end()){
+                    mp[sum] = 1;
+                    if(sum != m)
+                        ans = max(ans, mp[sum]);
+
+                }
+                else{
+                    mp[sum]++;
+                    if(sum != m)
+                        ans = max(ans, mp[sum]);
+
+                }
+            }
+        }
+        return n-ans;
+    }
+};
