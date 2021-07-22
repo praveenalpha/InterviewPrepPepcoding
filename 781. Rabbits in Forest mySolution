@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        unordered_map<int, int> mp;
+        for(int rabbit : answers){
+            if(mp.find(rabbit) == mp.end()){
+                mp[rabbit] = 1;
+            }
+            else{
+                mp[rabbit]++;
+            }
+        }
+        
+        int ans = 0;
+        unordered_map<int, int> :: iterator itr;
+        for(itr = mp.begin() ; itr != mp.end(); itr++){
+            int color = itr->first;
+            int freq = itr->second;
+            cout<<color<<"->"<<freq<<endl;
+            
+            int grp = ceil((float)(freq) / ( color + 1 ));
+            cout<<grp<<endl;
+            ans += (grp * (color + 1));
+        }
+        return ans;
+    }
+};
