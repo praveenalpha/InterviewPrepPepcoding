@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+#include <queue>
+#include <vector>
+#include <algorithm>
+#include <utility>
+
+using namespace std;
+
+int main()
+{
+    int n;
+    cin>>n;
+    vector<long long int> arr;
+    priority_queue<int> pq;
+
+    long long int positive = 0 , negative = 0, ans = 0, health = 0;
+    for(int i=0;i<n;i++){
+        long long int temp;
+        cin>>temp;
+        arr.push_back(temp);
+    }
+        
+    for(int i=0;i<n;i++){
+        if(arr[i] >= 0){
+            positive += arr[i];
+            health+= arr[i];
+            ans++;
+        }
+        else{
+            if(positive >= abs(arr[i]) + negative){
+                
+                pq.push(abs(arr[i]));
+                negative += abs(arr[i]);
+            }
+            else{
+                if(pq.size() == 0)
+                    continue;
+                
+                long long int temp = pq.top();
+                
+                if(temp > abs(arr[i])){
+                    pq.pop();
+                    pq.push(abs(arr[i]));
+                    negative = negative + abs(arr[i]);
+                    negative = negative - temp;
+
+                }
+            }
+
+        }
+    }
+    cout<<ans + pq.size()<<endl;
+    return 0;
+}
