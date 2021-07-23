@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int count = 0;
+        unordered_map<int,int> mp;
+        int currentSum = 0;
+        for(int i=0;i<nums.size();++i){
+            currentSum += nums[i];
+            
+            if(currentSum == k)
+                ++count;
+            
+            if(mp.find(currentSum - k) != mp.end())
+                count += mp[currentSum - k];
+            if(mp.find(currentSum) == mp.end())
+                mp[currentSum] = 1;
+            else
+                mp[currentSum]++;
+        
+        }
+        return count;
+    }
+};
