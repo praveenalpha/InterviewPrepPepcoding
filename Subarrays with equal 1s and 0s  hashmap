@@ -1,0 +1,62 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+
+class Solution{
+  public:
+    //Function to count subarrays with 1s and 0s.
+    long long int countSubarrWithEqualZeroAndOne(int arr[], int n)
+    {
+        vector<int> zero(n);
+        vector<int> one(n);
+        if(arr[0] == 0)
+            zero[0] = 1;
+        else 
+            one[0] = 1;
+        for(int i=0;i<n;i++){
+            zero[i] = zero[i-1];
+            one[i] = one[i-1];
+            if(arr[i] == 0)
+                zero[i]++;
+            else
+                one[i]++;
+        }
+        unordered_map<int, int> mp;
+        mp[0] = 1;
+        long long int ans = 0;
+        for(int i=0;i<n;i++){
+            if(mp.find(zero[i] - one[i]) == mp.end()){
+                mp[zero[i] - one[i]] = 1;
+            }
+            else{
+                ans += mp[zero[i] - one[i]];
+                mp[zero[i] - one[i]]++;
+            }
+            
+        }
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	int n,i;
+	cin>>n;
+	int arr[n];
+	for(i=0;i<n;i++)
+	cin>>arr[i];
+	Solution obj;
+	cout<< obj.countSubarrWithEqualZeroAndOne(arr, n)<<"\n";
+	}
+	return 0;
+}
+  // } Driver Code Ends
