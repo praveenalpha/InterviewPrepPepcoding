@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <queue>
+#include <vector>
+#include <algorithm>
+#include <utility>
+#include <unordered_map>
+
+using namespace std;
+
+
+long long int ans(vector<int>& a){
+    unordered_map<int, int> mp;
+    int n = a.size();
+    long long int count=0;
+    for(int i=0;i<n;i++){
+        if(mp.find(a[i] - (i+1)) == mp.end()){
+            mp[a[i] - (i+1)] = 1;
+        }
+        else{
+            count += mp[a[i] - (i+1)];
+            mp[a[i] - (i+1)]++;
+        }
+    }
+    return count;
+}
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int> a(n);
+        for(int i=0;i<n;i++)
+            cin>>a[i];
+
+        cout<<ans(a)<<endl;
+    }
+    return 0;
+}
