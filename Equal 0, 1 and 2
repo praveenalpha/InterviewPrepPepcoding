@@ -1,0 +1,78 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+long long getSubstringWithEqual012(string str);
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		string s;
+		cin>>s;
+		cout<<getSubstringWithEqual012(s)<<endl;
+	}
+    return 0;
+}
+// } Driver Code Ends
+
+
+long long getSubstringWithEqual012(string str)
+{
+    unordered_map<string, int> mp;
+    int n = str.length();
+    vector<int> zero(n);
+    vector<int> one(n);
+    vector<int> two(n);
+    
+    if(str[0] == '0')
+        zero[0] = 1;
+    else if(str[0] == '1'){
+        // cout<<"yes";
+        one[0] = 1;
+    }
+    else if(str[0] == '2')
+        two[0] = 1;
+    
+    for(int i=1;i<n;i++){
+        zero[i] = zero[i-1];
+        one[i] = one[i-1];
+        two[i] = two[i-1];
+        
+        if(str[i] == '0')
+            zero[i]++;
+        else if(str[i] == '1')
+            one[i]++;
+        else
+            two[i]++;
+    }
+    // for(int i=0;i<n;i++)
+    //     cout<<zero[i]<<" ";
+    // cout<<endl;
+    // for(int i=0;i<n;i++)
+    //     cout<<one[i]<<" ";
+    // cout<<endl;
+    // for(int i=0;i<n;i++)
+    //     cout<<two[i]<<" ";
+    // cout<<endl;
+    
+    mp["0#0"] = 1;
+    long long ans = 0;
+    for(int i=0;i<n;i++){
+        string temp = "";
+        temp += to_string(zero[i] - one[i]);
+        temp += '#';
+        temp += to_string(zero[i] - two[i]);
+        if(mp.find(temp) == mp.end())
+            mp[temp] = 1;
+        else{
+            ans += mp[temp];
+            mp[temp]++;
+        }
+    }
+    return ans;
+    
+    
+    
+    
+}
