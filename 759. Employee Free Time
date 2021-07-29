@@ -1,0 +1,62 @@
+/*
+// Definition for an Interval.
+class Interval {
+public:
+    int start;
+    int end;
+
+    Interval() {}
+
+    Interval(int _start, int _end) {
+        start = _start;
+        end = _end;
+    }
+};
+*/
+
+ bool comparator(Interval one,Interval two){
+     if(one.start==two.start)
+         return one.end>two.end;
+        return (one.start < two.start);
+    }
+class Solution {
+public:
+    vector<Interval> employeeFreeTime(vector<vector<Interval>> schedule) {
+        vector<Interval> list1;
+        // vector<int> list2;
+        
+        int n = schedule.size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<schedule[i].size();j++){
+                list1.push_back(Interval(schedule[i][j].start, schedule[i][j].end));
+            }
+        }
+        
+        sort(list1.begin(), list1.end(), comparator);
+        // sort(list2.begin(), list2.end());
+        
+        int n1 = list1.size();
+//         for(int i=0;i<n1;i++){
+//             cout<<list1[i].start<<"("<<i<<") ";
+            
+//         }
+//         cout<<endl;
+//         for(int i=0;i<n1;i++){
+//             cout<<list1[i].end<<"("<<i<<") ";
+            
+//         }
+//         cout<<endl;
+        
+        vector<Interval> ans;
+        int prevMaxEnding = list1[0].end;
+        
+        for(int i=1;i<n1;i++){
+            if(list1[i].start > prevMaxEnding){
+                ans.push_back(Interval(prevMaxEnding, list1[i].start));
+                prevMaxEnding = list1[i].end;
+            }
+            prevMaxEnding = max(prevMaxEnding, list1[i].end);
+        }
+        return ans;
+    }
+};
