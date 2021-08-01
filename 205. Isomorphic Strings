@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char> mp;
+        unordered_set<char> st;
+        int n = s.length();
+        for(int i=0;i<n;i++){
+            char S = s[i], T = t[i];
+            
+            if(mp.find(S) == mp.end()){
+                if(st.find(T) != st.end())
+                    return false;
+                mp[S] = T;
+                st.insert(T);
+                cout<<S<<","<<mp[S]<<" ";
+
+            }
+            else if(mp[S] != T){
+                cout<<S<<","<<mp[S]<<" ";
+                return false;
+                
+            }
+        }
+        return true;
+    }
+};
