@@ -1,0 +1,49 @@
+/*
+    
+        1/5 < 2/7
+      (0.2) < (0.28)
+    7*(1/5) < 7*(2/7)
+    7*(1/5) < 2
+  5*7*(1/5) < 5*2
+      7*1   < 5*2
+
+*/
+vector<int> globalArr;
+struct comparator{
+    bool operator()(pair<int, int>& a, pair<int, int>& b){
+        int numA = globalArr[a.first], denA = globalArr[a.second], numB = globalArr[b.first], denB = globalArr[b.second];
+        return numA * denB > numB * denA;
+    }
+};
+class Solution {
+public:
+    vector<int> kthSmallestPrimeFraction(vector<int>& arr, int k) {
+        int n = arr.size();
+        globalArr = arr;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, comparator> pq;
+        
+        for(int i=0;i<n-1;i++){
+            pq.push({i, n-1});
+        }
+//         while(pq.size()){
+//             pair<int, int> rpair = pq.top();
+//             pq.pop();
+//             cout<<arr[rpair.first]<<"/"<<arr[rpair.second]<<",";
+                
+//         }
+        while(pq.size()){
+            pair<int, int> rpair = pq.top();
+            pq.pop();
+            k--;
+            if(k == 0){
+                return {arr[rpair.first], arr[rpair.second]};
+            }
+            if(rpair.second - 1 >= 0){
+                pq.push({rpair.first, rpair.second-1});
+            }
+            
+        }
+        vector<int> ans;
+        return ans;
+    }
+};
