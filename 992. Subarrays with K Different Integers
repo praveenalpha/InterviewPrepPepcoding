@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int atMostK(int k, vector<int>& nums){
+        unordered_map<int, int> mp;
+        int n = nums.size(), i=0, j=0, ans = 0;
+        bool flag = false;
+        
+        while(true){
+            
+            while(mp.size() <= k && j < n){
+                
+                if(flag == false){
+                    if(mp.find(nums[j]) == mp.end()){
+                        mp[nums[j]] = 1;
+                    }
+                    else{
+                        mp[nums[j]]++;
+                    }
+                }
+                    
+                
+                
+                if(mp.size() > k){
+                    flag = true;
+                    break;                    
+                }
+                flag = false;    
+                ans += (j - i + 1);
+                j++;
+                // cout<<"("<<j<<"-"<<i<<"+"<<"1"<<")"<<", ";
+            }
+            if(j == n)
+                break;
+            while(mp.size() > k){
+                // cout<<nums[i]<<"->"<<mp[nums[i]]<<",";
+
+                mp[nums[i]]--;
+                if(mp[nums[i]] == 0)
+                    mp.erase(nums[i]);
+                
+                i++;
+            }
+        }
+        return ans;
+    }
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        int n1 = atMostK(k, nums);
+        int n2 = atMostK(k-1, nums);
+        // cout<<n1<<" "<<n2;
+        return n1 - n2;
+    }
+};
