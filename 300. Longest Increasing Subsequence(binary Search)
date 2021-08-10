@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int binarySearch(vector<int>& dp, int lo, int hi, int val){
+        
+        while(lo <= hi){
+            int mid = lo + (hi - lo) / 2;
+            if(val <= dp[mid]){
+                hi = mid-1;
+            }
+            else{
+                lo = mid + 1;
+            }
+        }
+        return lo;
+    }
+    int lengthOfLIS(vector<int>& a) {
+        int n = a.size(), ans = 1;
+        vector<int> dp(n);
+        dp[0] = a[0];
+        
+        for(int i=1;i<n;i++){
+            if(a[i] > dp[ans - 1]){
+                dp[ans] = a[i];
+                ans++;
+            }
+            else{
+                int idx = binarySearch(dp, 0, ans-1, a[i]);
+                dp[idx] = a[i];
+            }
+        }
+        return ans;
+    }
+};
