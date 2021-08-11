@@ -1,0 +1,46 @@
+
+bool compare(vector<int>& a, vector<int>& b){
+    if(a[0] == b[0])
+        return a[1] > b[1];
+    return a[0] < b[0];
+}
+class Solution {
+public:
+    int binarySearch(vector<int>& dp, int lo, int hi, int val){
+        while(lo <= hi){
+            int mid = lo + (hi - lo) / 2;
+            if(val <= dp[mid]){
+                hi = mid - 1;
+            }
+            else
+                lo = mid + 1;
+        }
+        return lo;
+    }
+    int LIS(vector<vector<int>>& a){
+        int n = a.size(), ans = 1;
+        vector<int> dp(n);
+        dp[0] = a[0][1];
+        
+        for(int i=1;i<n;i++){
+            if(dp[ans-1] < a[i][1]){
+                dp[ans] = a[i][1];
+                ans++;
+            }
+            else{
+                int idx = binarySearch(dp, 0, ans-1, a[i][1]);
+                dp[idx] = a[i][1];
+            }
+        }
+        return ans;
+    }
+    int maxEnvelopes(vector<vector<int>>& a) {
+        sort(a.begin(), a.end(), compare);
+        int n = a.size();
+        
+        
+        int ans = LIS(a);
+        
+        return ans;
+    }
+};
