@@ -1,0 +1,80 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+
+using namespace std;
+
+ // } Driver Code Ends
+class Solution{
+    public:
+    static bool compare(vector<int>& a, vector<int>& b){
+        if(a[1] == b[1])
+            return a[2] > b[2];
+        return a[1] < b[1];
+    }
+    /*The function takes an array of heights, width and 
+    length as its 3 arguments where each index i value 
+    determines the height, width, length of the ith box. 
+    Here n is the total no of boxes.*/
+    int ans;
+    void lis(vector<vector<int>>& triplet){
+        int n = triplet.size();
+        vector<int> dp(n);
+        dp[0] = triplet[0][0];
+        ans = max(ans, dp[0]);
+        for(int i=1;i<n;i++){
+            int j = i-1;
+            dp[i] = triplet[i][0];
+            while(j >= 0){
+                if(j >= 0 && triplet[j][1] < triplet[i][1] && triplet[j][2] < triplet[i][2]){
+                    dp[i] = max(triplet[i][0] + dp[j], dp[i]);
+                }
+                j--;
+            }
+            ans = max(dp[i], ans);
+            
+        }
+    }
+    int maxHeight(int height[],int width[],int length[],int n)
+    {
+        ans = 0;
+        vector<vector<int>> triplet;
+        // h, w, l
+
+        for(int i=0;i<n;i++){
+            triplet.push_back({height[i], max(width[i], length[i]), min(width[i], length[i])});
+            triplet.push_back({width[i], max(height[i], length[i]), min(height[i], length[i])});
+            triplet.push_back({length[i], max(width[i], height[i]), min(width[i], height[i])});
+            
+        }
+        
+        sort(triplet.begin(), triplet.end(), compare);
+        
+        lis(triplet);
+        
+        return ans;
+    }
+};
+
+
+// { Driver Code Starts.
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+        int n;
+        cin>>n;
+        
+    
+        int A[105],B[105],C[105];
+        for(int i = 0; i < n; i++)cin >> A[i];
+        for(int j = 0; j < n; j++)cin >> B[j];
+        for(int k = 0; k < n; k++)cin >> C[k];
+        Solution ob;
+        cout<<ob.maxHeight(A,B,C,n)<<endl;
+    }
+	
+	return 0;
+}
+	  // } Driver Code Ends
