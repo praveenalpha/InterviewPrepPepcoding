@@ -1,0 +1,38 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+#define ll long long
+
+ // } Driver Code Ends
+//User function template for C++
+class Solution{
+public:
+	// #define ll long long
+	ll countStrings(int n) {
+	    ll o = 1, z = 1, mod=pow(10,9)+7;
+	    
+	    for(int i=2;i<=n;i++){
+	        int temp = o;
+	        o = z;
+	        z = (temp%mod + z%mod)%mod;
+	        
+	    }
+	    return (o%mod+z%mod)%mod;
+	}
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        Solution ob;
+        auto ans = ob.countStrings(n);
+        cout << ans << "\n";
+    }
+    return 0;
+}  // } Driver Code Ends
