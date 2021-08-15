@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int minCost(vector<vector<int>>& costs) {
+        vector<int> dp = costs[0];
+        int n = costs.size();
+        
+        for(int i = 1;i<n;i++){
+            int z = dp[0], o = dp[1], t = dp[2];
+
+            for(int j=0;j<3;j++){
+                if(j == 0){
+                    int m = min(o, t);
+                    dp[0] = costs[i][0] + m;
+                }   
+                else if(j == 1){
+                    int m = min(z, t);
+                    dp[1] = costs[i][1] + m;
+                }
+                else{
+                    int m = min(o, z);
+                    dp[2] = costs[i][2] + m;
+                }
+            }
+        }
+        
+        return min(dp[0], min(dp[1], dp[2]));
+    }
+};
