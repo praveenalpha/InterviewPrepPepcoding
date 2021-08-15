@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int minCostII(vector<vector<int>>& costs) {
+        vector<int> dp = costs[0];
+        int n = costs.size(), n1 = costs[0].size();
+        
+        
+        for(int i=1;i<n;i++){
+            int least = INT_MAX, secondLeast = INT_MAX;
+            for(int k=0;k<n1;k++){
+                if(dp[k] < least){
+                    secondLeast = least;
+                    least = dp[k];
+                }
+                else if(dp[k] < secondLeast){
+                    secondLeast = dp[k];
+                }
+            }
+            
+            
+            
+            for(int j=0;j<n1;j++){
+                if(least == dp[j]){
+                    dp[j] = secondLeast + costs[i][j];
+                }
+                else
+                    dp[j] = least + costs[i][j];
+                
+            }    
+        }
+        int ans = INT_MAX;
+        for(int i=0;i<n1;i++)
+            ans = min(ans, dp[i]);
+        return ans;
+    }
+};
