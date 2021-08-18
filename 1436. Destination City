@@ -1,0 +1,16 @@
+class Solution {
+public:
+    string destCity(vector<vector<string>>& paths) {
+        unordered_map<string, string> mp;
+        for(vector<string> s:paths){
+            string a = s[0];
+            string b = s[1];
+            mp[a] = b;
+        }
+        string temp = paths[0][0];
+        while(mp.find(temp) != mp.end()){
+            temp = mp[temp];
+        }
+        return temp;
+    }
+};
