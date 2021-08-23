@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int sumOfUnique(vector<int>& nums) {
+        unordered_map<int, int> mp;
+        for(int ele : nums){
+            if(mp.find(ele) == mp.end()){
+                mp[ele] = 1;
+            }
+            else{
+                mp[ele]++;
+            }
+        }
+        int sum=0;
+        unordered_map<int, int> :: iterator itr;
+        for(itr = mp.begin();itr != mp.end();itr++)
+        {
+            if(itr->second < 2)
+                sum += itr->first;
+        }
+        return sum;
+    }
+};
