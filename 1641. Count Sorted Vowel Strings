@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int countVowelStrings(int n) {
+        vector<vector<int>> dp(n, vector<int> (5));
+        
+        dp[0] = {5, 4, 3, 2, 1};
+        long long int sum = 15;
+        long long int runningSum = 0;
+        for(int i=1;i<n;i++){
+            runningSum = 0;
+            for(int j=0;j<5;j++){
+                dp[i][j] = sum;
+                runningSum += dp[i][j];
+                sum -= dp[i-1][j];
+            }
+            sum = runningSum;
+        }
+        return dp[n-1][0];
+    }
+};
