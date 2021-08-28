@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int canBeTypedWords(string t, string b) {
+        unordered_set<char> st;
+        for(char ch:b){
+            st.insert(ch);
+        }
+        bool flag = false;
+        int ans = 0;
+        for(char ch:t){
+            if(ch == ' '){
+                if(!flag){
+                    ans++;
+                }
+                flag = false;
+            }
+            else{
+                if(st.find(ch) != st.end()){
+                    flag = true;
+                }
+            }
+        }
+        if(!flag){
+            ans++;
+        }
+        flag = false;
+        return ans;
+    }
+};
