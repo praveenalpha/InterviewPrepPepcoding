@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        set<int> st;
+        unordered_map<int, int>mp;
+        for(int e:arr){
+            if(mp.find(e) == mp.end()){
+                mp[e] = 1;
+                
+            }
+            else mp[e]++;
+        }
+        
+        
+        for(auto e:mp){
+            if(st.find(e.second) == st.end())
+                st.insert(e.second);
+            else return false;
+        }
+        return true;
+    }
+};
