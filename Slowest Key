@@ -1,0 +1,28 @@
+class Solution {
+public:
+    char slowestKey(vector<int>& r, string k) {
+        int n = r.size();
+        
+        vector<int> a(26,0);
+        
+        a[k[0] - 'a'] = r[0];
+        for(int i=1;i<n;i++){
+            int ch = k[i]-'a';
+            int time = r[i] - r[i-1];
+            
+            a[ch] = max(a[ch], time);
+        }
+        
+        
+        int ans = 0;
+        char ch;
+        for(int i=0;i<26;i++){
+            if(ans <= a[i]){
+                ans = a[i];
+                ch = i + 'a';
+            }
+        }
+        return ch;
+        
+    }
+};
