@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string shiftingLetters(string& s, vector<int>& shifts) {
+        int n = shifts.size();
+        
+        vector<long long int> prefixRTL(n);
+        prefixRTL[n-1] = shifts[n-1];
+        for(int i=n-2;i>=0;i--){
+            prefixRTL[i] = prefixRTL[i+1] + shifts[i];
+        }
+        
+        for(int i=0;i<n;i++){
+            int ch = s[i] - 'a';
+            long long int ans = (ch + prefixRTL[i] ) %26;
+            s[i] = ans + 'a';
+        }
+        
+        
+        return s;
+    }
+};
