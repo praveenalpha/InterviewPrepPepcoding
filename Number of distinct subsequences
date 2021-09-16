@@ -1,0 +1,68 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function template for C++
+
+class Solution{
+  public:	
+	int distinctSubsequences(string &s)
+	{
+	    int n = s.length(), mod = pow(10,9) + 7;
+	    vector<int> pos(n+1,-1);
+	    
+	    unordered_map<char, int> mp;
+	    for(int i=0;i<n;i++){
+	        char ch = s[i];
+	        if(mp.find(ch) == mp.end()){
+	            pos[i+1] = -1;
+	        }
+	        else
+	            pos[i+1] = mp[ch];
+	        mp[ch] = i+1;
+	    }
+	   // for(int i=0;i<=n;i++)
+	   //     cout<<pos[i]<<"   ";
+	   // cout<<endl;
+	    vector<int> sqnc(n+1);
+	    sqnc[0] = 1;
+	    sqnc[1] = 2;
+	    
+	    for(int i=2;i<=n;i++){
+            sqnc[i] = ((sqnc[i-1]%mod) * (2%mod))%mod;
+	        if(pos[i] != -1){
+	            int idx = pos[i]-1;
+	            sqnc[i] =  ((sqnc[i]%mod) - (sqnc[idx]%mod) + mod )%mod;
+	        }
+	    }
+	   // for(int i=0;i<=n;i++)
+	   //     cout<<sqnc[i]<<"    ";
+	    return sqnc[n];
+	}
+};
+
+// { Driver Code Starts.
+
+int main() 
+{
+   	
+
+   	ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+   
+   	int t;
+   	cin >> t;
+   	while(t--)
+   	{
+   		string s;
+   		cin >> s;
+
+        Solution ob;
+   		cout << ob.distinctSubsequences(s) << "\n";
+   	}
+
+    return 0;
+}  // } Driver Code Ends
