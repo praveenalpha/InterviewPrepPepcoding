@@ -1,0 +1,57 @@
+// { Driver Code Starts
+// C++ program to find largest subarray sum with
+// at-least k elements in it.
+#include <bits/stdc++.h>
+using namespace std;
+
+long long int maxSumWithK(long long int a[], long long int n, long long int k);
+
+// Driver code
+int main() {
+    long long int t;
+    cin >> t;
+    while (t--) {
+        long long int n, k, i;
+        cin >> n;
+        long long int a[n];
+        for (i = 0; i < n; i++) {
+            cin >> a[i];
+        }
+        cin >> k;
+        cout << maxSumWithK(a, n, k) << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
+
+
+long long int maxSumWithK(long long int a[], long long int n, long long int k) 
+{
+    vector<long long int> maxSumEnding(n);
+    
+    long long int currMax = a[0];
+    maxSumEnding[0] = a[0];
+    for(int i=1;i<n;i++){
+        if(currMax > 0){
+            currMax += a[i];
+        }
+        else {
+            currMax = a[i];
+        }
+        maxSumEnding[i] = currMax;
+    }
+    
+    long long int maxKEle = INT_MIN;
+    long long int currKSum = a[0];
+    for(int i=1;i<k;i++){
+        currKSum += a[i];
+    }
+    maxKEle = currKSum;
+    
+    
+    for(int i=k;i<n;i++){
+        currKSum += a[i] - a[i-k];
+        maxKEle = max(maxKEle,max(currKSum, currKSum + maxSumEnding[i-k]));
+    }
+    return maxKEle;
+}
