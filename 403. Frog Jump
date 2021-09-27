@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool canCross(vector<int>& stones) {
+        int n = stones.size();
+        unordered_map<int, unordered_set<int>> mp;
+        unordered_set<int> st;
+
+        for(int stone : stones){
+            mp[stone] = st;
+        }
+        
+        
+        st.insert(1);
+        st.insert(2);
+        
+        mp[1] = st;
+        
+        for(int i=1;i<n-1;i++){
+            int stone = stones[i];
+            
+            unordered_set<int> :: iterator itr;
+            
+            for(itr = mp[stone].begin(); itr != mp[stone].end();itr++){
+                
+                int nextJump = stone + (*itr);
+                if(mp.find(nextJump) != mp.end()){
+                    mp[nextJump].insert((*itr) - 1);
+                    mp[nextJump].insert((*itr));
+                    mp[nextJump].insert((*itr) + 1);
+                    
+                }
+            }
+            
+        }
+        if(mp[stones[n-1]].size() == 0)
+            return false;
+        return true;
+    }
+};
