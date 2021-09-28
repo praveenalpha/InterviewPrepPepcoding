@@ -1,0 +1,14 @@
+class Solution {
+public:
+
+    int findLUSlength(string &a, string &b) {
+        int n1 = a.length(), n2 = b.length();
+//         vector<vector<int>> dp(n1, vector<int> (n2, -1));
+
+//         int ans = solve(a,b,n1-1,n2-1, dp);
+//         return ans == 0 ? -1 : ans;
+        if(a == b)
+            return -1;
+        return max(n1,n2);
+    }
+};
