@@ -1,0 +1,39 @@
+class Solution {
+public:
+    
+    void solve(int n, vector<bool> &col, vector<bool> &row, vector<bool> &dia1, vector<bool> &dia2, vector<string> &sans, int qpsf, vector<vector<string>> &ans){
+        if(qpsf == n){
+            ans.push_back(sans);
+            return;
+        }
+        int i = qpsf;
+        for(int j=0;j<n;j++){
+            if(row[i] == false && col[j] == false && dia1[i+j] == false && dia2[(i-j) + n -1] == false){
+                col[j] = true;
+                row[i] = true;
+
+                dia1[i+j] = true;
+                dia2[i-j+n-1] = true;
+                sans[i][j] = 'Q';
+                solve(n, col, row, dia1, dia2, sans, qpsf + 1, ans);
+                row[i] = false;
+                col[j] = false;
+                dia1[i+j] = false;
+                dia2[i-j+n-1] = false;
+                sans[i][j] = '.';
+            }
+        }
+        
+    }
+    
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<bool> col(n);
+        vector<bool> row(n);
+        vector<bool> dia1(2*n + 1);
+        vector<bool> dia2(2*n + 1);
+        vector<string> sans(n, string(n, '.'));
+        solve(n, col, row, dia1, dia2, sans, 0, ans);
+        return ans;
+    }
+};
