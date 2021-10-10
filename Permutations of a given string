@@ -1,0 +1,61 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution
+{
+	public:
+	    void solve(int i, int n, map<char, int> &mp, vector<string> &ans, string &asf){
+	        if(i == n){
+	            ans.push_back(asf);
+	            return;
+	        }
+	        map<char, int> :: iterator itr;
+	        for(itr=mp.begin();itr!=mp.end();itr++){
+	            if(itr->second > 0){
+	                asf+=itr->first;
+	                itr->second--;
+	                solve(i+1,n, mp, ans, asf);
+	                itr->second++;
+	                asf.pop_back();
+	            }
+	        }
+	        
+	    }
+		vector<string>find_permutation(string &s)
+		{
+		    int n = s.length();
+		    vector<string> ans;
+		    string asf="";
+		    map<char, int> mp;
+		    for(char ch:s){
+		        mp[ch]++;
+		    }
+		    
+		    solve(0, n, mp, ans, asf);
+		    return ans;
+		}
+};
+
+
+
+// { Driver Code Starts.
+int main(){
+    int t;
+    cin >> t;
+    while(t--)
+    {
+	    string S;
+	    cin >> S;
+	    Solution ob;
+	    vector<string> ans = ob.find_permutation(S);
+	    for(auto i: ans)
+	    {
+	    	cout<<i<<" ";
+	    }
+	    cout<<"\n";
+    }
+	return 0;
+}
+  // } Driver Code Ends
