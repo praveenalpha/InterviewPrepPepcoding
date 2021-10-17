@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findLongestChain(vector<vector<int>>& arr) {
+        int n = arr.size();
+        vector<int> dp(n,1);
+        sort(arr.begin(), arr.end());
+        
+        int ans = 1;
+        dp[0] = 1;
+        
+        for(int i=1;i<n;i++){
+            int c = arr[i][0];
+            for(int j=0;j<i;j++){
+                int b = arr[j][1];
+                if(b < c){
+                    dp[i] = max(dp[i], dp[j] + 1);
+                }
+                
+            }
+            
+            ans = max(dp[i], ans);
+        }
+        return ans;
+    }
+};
