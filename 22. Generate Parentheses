@@ -1,0 +1,54 @@
+class Solution {
+public:
+    
+    bool isValid(string &f){
+        int count = 0;
+        for(char ch:f){
+            if(count < 0)
+                return false;
+            if(ch == '(')
+                count++;
+            else
+                count--;
+        }
+        return count == 0;
+    }
+    void help(int n, vector<vector<string>> &dp){
+        if(n == 1){
+            vector<string> ans;
+            ans.push_back("()");
+            dp[n] = ans;
+            return;
+        }
+        if(dp[n].size() != 0)
+            return;
+        unordered_set<string> st;
+        
+        help(n-1, dp);
+        
+        for(string str : dp[n-1]){
+            string currStr = "(" + str;
+            int len = currStr.length();
+            for(int i=1;i<len;i++){
+                string f = currStr.substr(0, i) + ")" + currStr.substr(i);
+                if(isValid(f)){
+                    st.insert(f);
+                }
+            }
+        }
+        vector<string> ans;
+        unordered_set<string> :: iterator  itr;
+        for(itr = st.begin();itr != st.end();itr++){
+            ans.push_back(*itr);
+            
+        }
+        dp[n] = ans;
+        
+    }
+    vector<string> generateParenthesis(int n) {
+         vector<vector<string>> dp(n+1);
+        help(n, dp);
+         return dp[n];
+    }
+};
+
