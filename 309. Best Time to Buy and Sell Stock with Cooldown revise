@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int b=-prices[0], s=0, c=0, n=prices.size();
+        for(int i=1;i<n;i++){
+            int prev_b = b;
+            int prev_s = s;
+            int prev_c = c;
+            b = max(prev_b, prev_c-prices[i]);
+            s = max(prev_s, prev_b+prices[i]);
+            c = prev_s;
+        }
+        return s;
+    }
+};
