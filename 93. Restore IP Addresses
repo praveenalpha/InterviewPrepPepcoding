@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int convert(string &s){
+        int a = s[0] - '0';
+        int b = s[1] - '0';
+        int c = s[2] - '0';
+        // cout<<s<<", ";
+        // cout<<a<<b<<c<<", ";
+        return (a*100) + (b*10) + c;
+    }
+    void solve(string &s, int vidx, int words_count, int n, vector<string> &ans, string string_so_far){
+        if(vidx >= n){
+            if(words_count == 4){
+                string_so_far.pop_back();
+                ans.push_back(string_so_far);
+                string_so_far += '.';
+            }
+            return;
+        }
+        string_so_far += s[vidx];
+        string_so_far += '.';
+        solve(s, vidx+1, words_count+1, n, ans, string_so_far);
+        string_so_far.pop_back();
+        if(vidx + 1 < n && s[vidx] != '0'){
+            string_so_far += s[vidx+1];
+            string_so_far += '.';
+            solve(s, vidx+2, words_count+1, n, ans, string_so_far);
+            string_so_far.pop_back();
+        }
+        if(vidx + 2 < n && s[vidx] != '0'){
+            string curr_string = "";
+            curr_string = s[vidx];
+            curr_string += s[vidx+1];
+            curr_string += s[vidx+2];
+            // cout<<curr_string<<", ";
+            int curr_digit = convert(curr_string);
+            if(curr_digit <= 255){
+                // cout<<curr_digit<<", ";
+                string_so_far += s[vidx+2];
+                string_so_far += '.';
+                solve(s, vidx+3, words_count+1, n, ans, string_so_far);
+                string_so_far.pop_back();
+            }
+        }
+    }
+    vector<string> restoreIpAddresses(string &s) {
+        vector<string> ans;
+        int n = s.length();
+        string ssf="";
+        solve(s, 0, 0, n, ans, ssf);
+        return ans;
+    }
+};
