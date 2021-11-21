@@ -1,0 +1,55 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* findMid(ListNode* head){
+        if(head == nullptr || head->next == nullptr)    return head;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast->next != nullptr && fast->next->next != nullptr){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        return slow;
+    }
+    ListNode* reverse(ListNode* head){
+        if(head == nullptr || head->next ==nullptr) return head;
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+        ListNode* frwd = head->next;
+        while(frwd != nullptr){
+            curr->next = prev;
+            prev = curr;
+            curr = frwd;
+            frwd = frwd->next;
+        }
+        curr->next = prev;
+        return curr;
+    }
+    void reorderList(ListNode* head) {
+        if(head == nullptr || head->next == nullptr)    return;
+        ListNode* mid = findMid(head);
+        ListNode* new_head = reverse(mid->next);
+        mid->next = nullptr;
+        ListNode* c1 = head;
+        ListNode* c2 = new_head;
+        ListNode* f1 = nullptr;
+        ListNode* f2 = nullptr;
+        while(c1 != nullptr && c2 != nullptr){
+            f1 = c1->next;
+            f2 = c2->next;
+            c1->next = c2;
+            c2->next = f1;
+            c1 = f1;
+            c2 = f2;
+        }
+    }
+};
