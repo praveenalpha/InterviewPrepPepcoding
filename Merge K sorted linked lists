@@ -1,0 +1,127 @@
+// { Driver Code Starts
+// C++ program to merge k sorted arrays of size n each
+#include <bits/stdc++.h>
+using namespace std;
+
+// A Linked List node
+struct Node
+{
+	int data;
+	Node* next;
+	
+	Node(int x){
+	    data = x;
+	    next = NULL;
+	}
+	
+};
+
+/* Function to print nodes in a given linked list */
+void printList(Node* node)
+{
+	while (node != NULL)
+	{
+		printf("%d ", node->data);
+		node = node->next;
+	}
+	cout<<endl;
+}
+
+ // } Driver Code Ends
+/*Linked list Node structure
+
+struct Node
+{
+	int data;
+	Node* next;
+	
+	Node(int x){
+	    data = x;
+	    next = NULL;
+	}
+	
+};
+*/ 
+
+class Solution{
+  public:
+    Node* merge_two_sorted_ll(Node* l1, Node* l2){
+        if(l1 == nullptr)   return l2;
+        if(l2 == nullptr)   return l1;
+        Node* ans = new Node(-1);
+        Node* curr = ans;
+        while(l1 != nullptr && l2 != nullptr){
+            if(l1->data <= l2->data){
+                Node* new_node = new Node(l1->data);
+                curr->next = new_node;
+                curr = curr->next;
+                l1 = l1->next;
+            }
+            else{
+                Node* new_node = new Node(l2->data);
+                curr->next = new_node;
+                curr = curr->next;
+                l2 = l2->next;
+            }
+        }
+        if(l1 != nullptr)   curr->next = l1;
+        if(l2 != nullptr)   curr->next = l2;
+        return ans->next;
+    }
+    Node* merge_using_bs(Node* arr[], int si, int ei){
+        if(si > ei) return nullptr;
+        if(si == ei)    return arr[si];
+        int mid = ((ei - si) / 2) + si;
+        Node* l1 = merge_using_bs(arr, si, mid);
+        Node* l2 = merge_using_bs(arr, mid+1, ei);
+        return merge_two_sorted_ll(l1, l2);
+        
+    }
+    Node * mergeKLists(Node *arr[], int k)
+    {
+        Node* head = merge_using_bs(arr, 0, k-1);
+        return head;
+    }
+};
+
+
+
+// { Driver Code Starts.
+// Driver program to test above functions
+int main()
+{
+   int t;
+   cin>>t;
+   while(t--)
+   {
+	   int N;
+	   cin>>N;
+       struct Node *arr[N];
+       for(int j=0;j<N;j++)
+        {
+           int n;
+           cin>>n;
+
+           int x;
+           cin>>x;
+           arr[j]=new Node(x);
+           Node *curr = arr[j];
+           n--;
+
+           for(int i=0;i<n;i++)
+           {
+               cin>>x;
+               Node *temp = new Node(x);
+               curr->next =temp;
+               curr=temp;
+           }
+   		}
+   		Solution obj;
+   		Node *res = obj.mergeKLists(arr,N);
+		printList(res);
+
+   }
+
+	return 0;
+}
+  // } Driver Code Ends
