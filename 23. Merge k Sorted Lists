@@ -1,0 +1,48 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* merge_two_sorted_ll(ListNode* l1, ListNode* l2){
+        if(l1 == nullptr)   return l2;
+        if(l2 == nullptr)   return l1;
+        ListNode* head = new ListNode(-1);
+        ListNode* curr = head;
+        while(l1 != nullptr && l2 != nullptr){
+            if(l1->val <= l2->val){
+                ListNode* new_node = new ListNode(l1->val);
+                curr->next = new_node;
+                curr = curr->next;
+                l1 = l1->next;
+            }
+            else{
+                ListNode* new_node = new ListNode(l2->val);
+                curr->next = new_node;
+                curr = curr->next;
+                l2 = l2->next;
+            }
+        }
+        if(l1 != nullptr)   curr->next = l1;
+        if(l2 != nullptr)   curr->next = l2;
+        return head->next;
+    }
+    ListNode* merge_using_bs(vector<ListNode*>& lists, int si, int ei){
+        if(si > ei) return nullptr;
+        if(si == ei)    return lists[si];
+        int mid = si + ((ei - si) / 2);
+        ListNode* l1 = merge_using_bs(lists, si, mid);
+        ListNode* l2 = merge_using_bs(lists, mid+1, ei);
+        return merge_two_sorted_ll(l1, l2);
+    }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        int k = lists.size();
+        return merge_using_bs(lists, 0, k-1);
+    }
+};
