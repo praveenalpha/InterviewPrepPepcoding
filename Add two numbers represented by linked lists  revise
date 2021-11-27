@@ -1,0 +1,122 @@
+// { Driver Code Starts
+// driver
+
+#include <bits/stdc++.h>
+using namespace std;
+
+/* Linked list Node */
+struct Node {
+    int data;
+    struct Node* next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+struct Node* buildList(int size)
+{
+    int val;
+    cin>> val;
+    
+    Node* head = new Node(val);
+    Node* tail = head;
+    
+    for(int i=0; i<size-1; i++)
+    {
+        cin>> val;
+        tail->next = new Node(val);
+        tail = tail->next;
+    }
+    
+    return head;
+}
+
+void printList(Node* n)
+{
+    while(n)
+    {
+        cout<< n->data << " ";
+        n = n->next;
+    }
+    cout<< endl;
+}
+
+
+ // } Driver Code Ends
+/* node for linked list:
+
+struct Node {
+    int data;
+    struct Node* next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+*/
+
+class Solution
+{
+    public:
+    //Function to add two numbers represented by linked list.
+    struct Node* reverse(struct Node* head){
+        if(head == nullptr || head->next == nullptr)    return head;
+        struct Node* prev = nullptr;
+        struct Node* curr = head;
+        struct Node* frwd = head->next;
+        while(frwd != nullptr){
+            curr->next = prev;
+            prev = curr;
+            curr = frwd;
+            frwd = frwd->next;
+        }
+        curr->next = prev;
+        return curr;
+    }
+    struct Node* addTwoLists(struct Node* first, struct Node* second)
+    {
+        if(first == nullptr)    return second;
+        if(second == nullptr)   return first;
+        struct Node* rl1 = reverse(first);
+        struct Node* rl2 = reverse(second);
+        struct Node* head = new Node(-1);
+        struct Node* tail = head;
+        int c = 0;
+        while(rl1 != nullptr || rl2 != nullptr || c != 0){
+            int a=0, b=0;
+            if(rl1 != nullptr){ a = rl1->data;  rl1 = rl1->next;}
+            if(rl2 != nullptr){ b = rl2->data;  rl2 = rl2->next;}
+            int sum = a+b+c;
+            tail->next = new Node(sum%10);
+            tail = tail->next;
+            c = sum/10;
+        }
+        return reverse(head->next);
+    }
+};
+
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, m;
+        
+        cin>>n;
+        Node* first = buildList(n);
+        
+        cin>>m;
+        Node* second = buildList(m);
+        Solution ob;
+        Node* res = ob.addTwoLists(first,second);
+        printList(res);
+    }
+    return 0;
+}
+  // } Driver Code Ends
