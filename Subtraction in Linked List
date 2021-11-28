@@ -1,0 +1,191 @@
+// { Driver Code Starts
+// driver
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+
+/* Linked list Node */
+struct Node {
+    int data;
+    struct Node* next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+struct Node* buildList(int size)
+{
+    int val;
+    cin>> val;
+    
+    Node* head = new Node(val);
+    Node* tail = head;
+    
+    for(int i=0; i<size-1; i++)
+    {
+        cin>> val;
+        tail->next = new Node(val);
+        tail = tail->next;
+    }
+    
+    return head;
+}
+
+void printList(Node* n)
+{
+    while(n)
+    {
+        cout<< n->data << " ";
+        n = n->next;
+    }
+    cout<< endl;
+}
+
+Node* subLinkedList(Node* l1, Node* l2);
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, m;
+        
+        cin>>n;
+        Node* first = buildList(n);
+        
+        cin>>m;
+        Node* second = buildList(m);
+        
+        Node* res = subLinkedList(first,second);
+        printList(res);
+    }
+    return 0;
+}
+// } Driver Code Ends
+
+
+/* Structure of linked list Node
+
+struct Node
+{
+    int data;
+    struct Node* next;
+    
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+    
+};
+
+*/
+
+//You are required to complete this method
+int length(Node* l){
+    Node* head = l;
+    int ans = 0;
+    while(head != nullptr){
+        ans++;
+        head = head->next;
+    }
+    return ans;
+}
+Node* remove_zero(Node* head){
+    while(head != nullptr && head->data == 0){
+        head = head->next;
+    }
+    if(head == nullptr) return new Node(0);
+    return head;
+}
+Node* reverse(Node* head){
+    if(head == nullptr || head->next == nullptr)    return head;
+    Node* prev = nullptr;
+    Node* curr = head;
+    Node* frwd = head->next;
+    while(frwd != nullptr){
+        curr->next = prev;
+        prev = curr;
+        curr = frwd;
+        frwd = frwd->next;
+    }
+    curr->next = prev;
+    return curr;
+}
+Node* subLinkedList(Node* l1, Node* l2)
+{
+    if(l1 == nullptr)   return l2;
+    if(l2 == nullptr)   return l1;
+    Node* s_node = nullptr;
+    Node* l_node = nullptr;
+    l1 = remove_zero(l1);
+    l2 = remove_zero(l2);
+    int length_l1 = length(l1);
+    int length_l2 = length(l2);
+    if(length_l1 < length_l2){
+        s_node = l1;
+        l_node = l2;
+    }
+    else if(length_l1 > length_l2){
+        s_node = l2;
+        l_node = l1;
+    }
+    else{
+        s_node = l1;
+        l_node = l2;
+        while(s_node != nullptr){
+            if(s_node->data < l_node->data){
+                s_node = l1;
+                l_node = l2;
+                break;
+            }
+            else if(s_node->data > l_node->data){
+                s_node = l2;
+                l_node = l1;
+                break;
+            }
+            s_node = s_node->next;
+            l_node = l_node->next;
+        }
+        if(s_node == nullptr){ return new Node(0);}
+    }
+    
+    l1 = reverse(l_node);
+    l2 = reverse(s_node);
+    Node* head = new Node(-1);
+    Node* tail = head;
+    int borrow = 0;
+    while(l1 != nullptr){
+        int a=l1->data, b=0;
+        if(l2 != nullptr)   {   b = l2->data;   l2 = l2->next;}
+        int diff = a-b+borrow;
+        borrow = 0;
+        if(diff < 0){
+            borrow = -1;
+            diff += 10;
+        }
+        tail->next = new Node(diff);
+        tail = tail->next;
+        l1 = l1->next;
+    }
+    Node* ans = remove_zero(reverse(head->next));
+    return ans;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
