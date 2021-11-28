@@ -1,0 +1,46 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverse(ListNode* head){
+        if(head == nullptr || head->next == nullptr)    return head;
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+        ListNode* frwd = head->next;
+        while(frwd != nullptr){
+            curr->next = prev;
+            prev = curr;
+            curr = frwd;
+            frwd = frwd->next;
+        }
+        curr->next = prev;
+        return curr;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if(l1 == nullptr)   return l2;
+        if(l2 == nullptr)   return l1;
+        ListNode* rl1 = reverse(l1);
+        ListNode* rl2 = reverse(l2);
+        ListNode* head = new ListNode(-1);
+        ListNode* tail = head;
+        int c = 0;
+        while(rl1 != nullptr || rl2 != nullptr || c != 0){
+            int a=0, b=0;
+            if(rl1 != nullptr){ a = rl1->val;   rl1 = rl1->next;}
+            if(rl2 != nullptr){ b = rl2->val;   rl2 = rl2->next;}
+            int sum = a+b+c;
+            tail->next = new ListNode(sum%10);
+            tail = tail->next;
+            c = sum/10;
+        }
+        return reverse(head->next);
+    }
+};
