@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> root_to_node(TreeNode* root, TreeNode* tar){
+        if(root == tar) return {root};
+        vector<TreeNode*> ans;
+        if(root->left != nullptr)   ans = root_to_node(root->left, tar);
+        if(ans.size() != 0){
+            ans.push_back(root);
+            return ans;
+        }
+        if(root->right != nullptr)  ans = root_to_node(root->right, tar);
+        if(ans.size() != 0){
+            ans.push_back(root);
+            return ans;
+        }
+        return ans;
+    }
+    void k_down(TreeNode* root, int k, TreeNode* bn, vector<int> &ans){
+        if(k < 0)   return;
+        if(k == 0){
+            ans.push_back(root->val);
+            return;
+        }
+        if(root->left != nullptr && root->left != bn)   k_down(root->left, k-1, bn, ans);
+        if(root->right != nullptr && root->right != bn) k_down(root->right, k-1, bn, ans);
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* tar, int k) {
+        vector<TreeNode*> root_to_node_path = root_to_node(root, tar);
+        int n = root_to_node_path.size();
+        TreeNode* bn = nullptr;
+        vector<int> ans;
+        for(int i = 0;i<n;i++){
+            k_down(root_to_node_path[i], k-i, bn, ans);
+            bn = root_to_node_path[i];
+        }
+        return ans;
+    }
+};
