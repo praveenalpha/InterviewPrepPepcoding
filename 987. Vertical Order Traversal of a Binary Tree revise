@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+struct compare{
+    bool operator()(pair<TreeNode*, int>& a, pair<TreeNode*, int>& b){
+        return a.first->val > b.first->val;
+    }
+};
+class Solution {
+public:
+    void width_of_tree(TreeNode* root, int hl, pair<int, int> &width){
+        if(root == nullptr) return;
+        width.first = min(width.first, hl);
+        width.second = max(width.second, hl);
+        width_of_tree(root->left, hl-1, width);
+        width_of_tree(root->right, hl+1, width);
+    }
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        //l, r
+        pair<int, int> width;
+        width_of_tree(root, 0, width);
+        vector<vector<int>> ans(width.second + abs(width.first) + 1, vector<int> ());
+        
+        priority_queue<pair<TreeNode*, int>, vector<pair<TreeNode*, int>>, compare> p_pq;
+        p_pq.push({root, abs(width.first)});
+        while(!p_pq.empty()){
+            int size = p_pq.size();
+            vector<int> sans;
+            priority_queue<pair<TreeNode*, int>, vector<pair<TreeNode*, int>>, compare> c_pq;
+            while(size--){
+                pair<TreeNode*, int> rnode = p_pq.top();
+                p_pq.pop();
+                ans[rnode.second].push_back(rnode.first->val);
+                if(rnode.first->left != nullptr)    c_pq.push({rnode.first->left, rnode.second - 1});
+                if(rnode.first->right != nullptr)   c_pq.push({rnode.first->right, rnode.second + 1});
+            }
+            p_pq = c_pq;
+        }
+        
+        return ans;
+    }
+};
