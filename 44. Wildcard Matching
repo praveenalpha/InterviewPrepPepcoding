@@ -1,0 +1,34 @@
+class Solution {
+public:
+    bool isMatch(string &s, string &p) {
+        int n_s = s.size();
+        int n_p = p.size();
+        vector<vector<bool>> dp(n_p+1, vector<bool> (n_s+1));
+        for(int i=n_p;i>=0;i--){
+            for(int j=n_s;j>=0;j--){
+                if(j == n_s && i == n_p)
+                    dp[i][j] = true;
+                else if(i == n_p)
+                    continue;
+                else if(j == n_s){
+                    if(p[i] == '*')
+                        dp[i][j] = dp[i+1][j];
+                }
+                else{
+                    if(p[i] == '*'){
+                        for(int k=j;k<=n_s;k++){
+                            if(dp[i+1][k] == true){
+                                dp[i][j] = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(p[i] == s[j] || p[i] == '?'){
+                        dp[i][j] = dp[i+1][j+1];
+                    }
+                }
+            }
+        }
+        return dp[0][0];
+    }
+};
