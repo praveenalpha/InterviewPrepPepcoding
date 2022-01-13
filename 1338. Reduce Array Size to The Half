@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        int n = arr.size();
+        unordered_map<int, int> mp;
+        for(int e:arr)
+            mp[e]++;
+        priority_queue<int> pq;
+        for(auto it=mp.begin();it!=mp.end();it++)
+            pq.push(it->second);
+        int count = 0;
+        int curr_freq = 0;
+        while(curr_freq < n/2){
+            count++;
+            int rnode = pq.top();
+            pq.pop();
+            curr_freq += rnode;
+        }
+        return count;
+    }
+};
