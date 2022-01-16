@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int n = nums.size(), ans = INT_MAX;
+        vector<int> prefix(n+1);
+        for(int i=1;i<=n;i++)   prefix[i] = prefix[i-1] + nums[i-1];
+        for(int i=1;i<=n;i++){
+            int to_find = prefix[i-1] + target;
+            auto it = lower_bound(prefix.begin(), prefix.end(), to_find);
+            if(it == prefix.end())  continue;
+            int val = (it-prefix.begin())-i+1;
+            ans = min(ans, val);
+        }
+        return ans==INT_MAX ? 0:ans;
+    }
+};
