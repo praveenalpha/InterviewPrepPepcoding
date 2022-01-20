@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> ms(vector<int>& arr, int l, int r){
+        if(l > r)   return {};
+        if(l == r)  return {arr[l]};
+        int mid = l + (r - l) / 2;
+        vector<int> la = ms(arr, l, mid);
+        vector<int> ra = ms(arr, mid+1, r);
+        int i = 0, j = 0, ie = la.size(), je = ra.size();
+        vector<int> ans;
+        while(i < ie && j < je){
+            if(la[i] < ra[j]) ans.push_back(la[i++]);
+            else if(ra[j] < la[i])    ans.push_back(ra[j++]);
+            else{
+                ans.push_back(la[i++]);
+                ans.push_back(ra[j++]);
+            }
+        }
+        while(i<ie)   ans.push_back(la[i++]);
+        while(j<je)   ans.push_back(ra[j++]);
+        
+        return ans;
+    }
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        return ms(nums, 0, n-1);
+    }
+};
