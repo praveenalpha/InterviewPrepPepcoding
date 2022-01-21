@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& arr, int x) {
+        int n1 = arr.size(), n2 = arr[0].size();
+        int i = 0, j=n2-1;
+        while(true){
+            if(arr[i][j] == x)  return true;
+            while(arr[i][j] > x){
+                j--;
+                if(j < 0)   return false;
+            }    
+            
+            while(arr[i][j] < x){
+                i++;
+                if(i >= n1) return false;
+            }
+            
+        }
+        return false;
+    }
+};
