@@ -1,0 +1,53 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& a, vector<int>& b) {
+        int n1 = a.size(), n2 = b.size();
+        if(n1 == 0){
+            if(n2 % 2 == 1) return b[n2/2];
+            int m1 = b[n2/2];
+            int m2 = b[n2/2-1];
+            return (double)((m1+m2)/2.0);
+        }
+        if(n2 == 0){
+            if(n1%2 == 1)   return a[n1/2];
+            int m1 = a[n1/2];
+            int m2 = a[(n1/2)-1];
+            return (double)((m1+m2)/2.0);
+        }
+        int te = n1+n2;
+        if(n1 > n2){
+            vector<int> temp = a;
+            a = b;
+            b = temp;
+            int tn = n1;
+            n1 = n2;
+            n2 = tn;
+        }
+        cout<<a[0]<<","<<b[0];
+        int l = 0, r = n1;
+        while(l <= r){
+            int aleft = l + (r-l)/2;
+            int bleft = (te+1)/2 - aleft;
+            
+            int al = (aleft == n1) ? INT_MAX : a[aleft];
+            int alm1 = (aleft-1 == -1) ? INT_MIN : a[aleft-1];
+            int bl = (bleft == n2) ? INT_MAX : b[bleft];
+            int blm1 = (bleft-1 == -1) ? INT_MIN : b[bleft-1];
+            
+            if(alm1 <= bl && blm1 <= al){
+                if(te % 2 == 0){
+                    int mxl = max(alm1, blm1);
+                    int mnr = min(al, bl);
+                    cout<<mxl<<","<<mnr;
+                    return (double)((mxl + mnr) / 2.0);
+                }
+                else{
+                    return (double)(max(alm1, blm1));
+                }
+            }
+            else if(blm1 > al)  l = aleft+1;
+            else    r = aleft - 1;
+        }
+        return -1;
+    }
+};
