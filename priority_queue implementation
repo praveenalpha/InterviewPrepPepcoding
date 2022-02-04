@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Priority_queue{
+public:
+    int size;
+    vector<int> arr;
+    Priority_queue(){
+        size = 0;
+        // cout<<"inside constructor";
+        // cout<<size;
+    }
+    void add(int x){
+        size++;
+        arr.push_back(x);
+        upheapify();
+    }
+    void upheapify(){
+        int curr = size-1, pi = (size-1-1)/2;
+        while(pi >= 0 && arr[curr] < arr[pi]){
+            swap(arr[curr], arr[pi]);
+            curr = pi;
+            pi = (curr-1)/2;
+        }
+    }
+    int top(){
+        return arr[0];
+    }
+    void pop(){
+        swap(arr[0], arr[size-1]);
+        size--;
+        downheapify();
+    }
+    void downheapify(){
+        int curr = 0;
+        int lc = 2*curr + 1;
+        int rc = 2*curr + 2;
+        int mn_idx = curr;
+        if(lc >= size)  return;
+        if(arr[lc] < arr[curr])    mn_idx = lc;
+        if(rc < size && arr[rc] < arr[mn_idx])  mn_idx = rc;
+        while(arr[curr] > arr[mn_idx]){
+            swap(arr[curr], arr[mn_idx]);
+            curr = mn_idx;
+            lc = 2*curr + 1;
+            rc = 2*curr + 2;
+            if(lc >= size)  return;
+            if(arr[lc] < arr[curr]) mn_idx = lc;
+            if(rc < size && arr[rc] < arr[mn_idx])  mn_idx = rc;
+        }
+    }
+};
+int main() {
+    Priority_queue pq;
+    pq.add(5);
+    pq.add(4);
+    pq.add(3);
+    pq.add(2);
+    while(pq.size != 0){
+        cout<<pq.top();
+        pq.pop();
+    }
+	return 0;
+}
