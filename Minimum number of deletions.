@@ -1,0 +1,33 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+int minDeletions(string str, int n);
+
+int main(){
+    int t;
+    cin >> t;
+    while(t--){
+        
+        int n;
+        cin >> n;
+        string s;
+        cin >> s;
+        cout << minDeletions(s, n) << endl;
+
+    }
+return 0;
+}// } Driver Code Ends
+
+int LCS(string& s, int l, int r, vector<vector<int>>& dp){
+    if(l > r)   return 0;
+    if(dp[l][r] != -1)  return dp[l][r];
+    if(l == r)  return dp[l][r] = 1;
+    if(s[l] == s[r])    return dp[l][r] = LCS(s, l+1, r-1, dp) + 2;
+    return dp[l][r] = max(LCS(s, l+1, r, dp), LCS(s, l, r-1, dp));
+}
+int minDeletions(string s, int n) { 
+    vector<vector<int>> dp(n+1, vector<int> (n+1, -1));
+    int lcs = LCS(s, 0, n-1, dp);
+    int ans = n-lcs;
+    return ans;
+} 
