@@ -1,0 +1,60 @@
+class Solution {
+public:
+    void LCS(string& s1, string& s2, int n1, int n2, vector<vector<int>>& dp, string& ans){
+        for(int i=0;i<=n1;i++){
+            for(int j=0;j<=n2;j++){
+                if(i == 0 || j == 0)    dp[i][j] = 0;
+                else if(s1[i-1] == s2[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
+                else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        while(n1 != 0 && n2 != 0){
+            if(s1[n1-1] == s2[n2-1]){
+                ans = s1[n1-1] + ans;
+                n1--;
+                n2--;
+            }
+            else{
+                if(dp[n1-1][n2] > dp[n1][n2-1]){
+                    n1--;
+                }
+                else    n2--;
+            }
+        }
+    }
+    string shortestCommonSupersequence(string& s1, string& s2) {
+        int n1 = s1.length(), n2 = s2.length();
+        string ans = "";
+        vector<vector<int>> dp(n1+1, vector<int> (n2+1, -1));
+        LCS(s1, s2, n1, n2, dp, ans);
+        int n3 = ans.length();
+        int i=0, j=0, k=0;
+        string res = "";
+        while(k < n3){
+            if(s1[i] == s2[j]){
+                res = res + s1[i];
+                i++;
+                j++;
+                k++;
+            }
+            else{
+                if(s1[i] == ans[k]){
+                    res = res + s2[j];
+                    j++;
+                }
+                else if(s2[j] == ans[k]){
+                    res = res + s1[i];
+                    i++;
+                }
+                else{
+                    res = res + s1[i] + s2[j];
+                    i++;
+                    j++;
+                }
+            }
+        }
+        while(i < n1)   res += s1[i++];
+        while(j<n2) res += s2[j++];
+        return res;
+    }
+};
