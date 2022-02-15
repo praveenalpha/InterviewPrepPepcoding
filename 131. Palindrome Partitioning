@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool is_pal(string& s, int i, int j){
+        while(i < j && s[i] == s[j]){
+            i++;j--;
+        }
+        if(i >= j)  return true;
+        return false;
+    }
+    void solve(string& s, int n, int i, int j, vector<vector<string>>& ans, vector<string>& s_ans){
+        if(i == n){
+            ans.push_back(s_ans);
+            return;
+        }
+        for(int k=i;k<=j;k++){
+            if(is_pal(s, i, k)){
+                s_ans.push_back(s.substr(i, k - i + 1));
+                solve(s, n, k+1, j, ans, s_ans);
+                s_ans.pop_back();
+            }
+        }
+    }
+    vector<vector<string>> partition(string& s) {
+        int n = s.length();
+        vector<vector<string>> ans;
+        vector<string> s_ans;
+        solve(s, n, 0, n-1, ans, s_ans);
+        return ans;
+    }
+};
