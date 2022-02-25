@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> ans(n, vector<int> (n));
+        int si = 0, ei = n-1, sc = 0, ec = n-1, c = 1;
+        while(si < ei){
+            for(int j=sc;j<=ec;j++)     ans[si][j] = c++;
+            for(int i=si+1;i<=ei;i++)   ans[i][ec] = c++;
+            for(int j=ec-1;j>=sc;j--)   ans[ei][j] = c++;
+            for(int i=ei-1;i>=si+1;i--) ans[i][sc] = c++;
+            si++;
+            ei--;
+            sc++;
+            ec--;
+        }
+        if(si == ei)    ans[si][sc] = c;
+        return ans;
+    }
+};
