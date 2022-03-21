@@ -1,0 +1,27 @@
+class Solution {
+public:
+    //                      0   1      2     3      4       5       6       7       8   9
+    vector<string> keys = {"", "oo", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    
+    vector<string> solve(string& s, int i, int n){
+        if(i == n)  return {""};
+        
+        int curr = s[i] - '0';
+        
+        vector<string> sans = solve(s, i+1, n);
+        vector<string> ans;
+        
+        for(char ch : keys[curr]){
+            for(string ss : sans){
+                ans.push_back(ch + ss);
+            }
+        }
+        return ans;
+    }
+    vector<string> letterCombinations(string& s) {
+        int n = s.length();
+        vector<string> ans = solve(s, 0, n);
+        vector<string> e;
+        return ans[0].size() == 0 ? e : ans;
+    }
+};
