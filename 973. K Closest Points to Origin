@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& arr, int k) {
+        priority_queue<vector<double>, vector<vector<double>>, greater<vector<double>> > pq;
+        for(vector<int> e : arr){
+            double val = sqrt((0 - e[0])*(0 - e[0]) + (0 - e[1])*(0 - e[1]));
+            pq.push({val, (double)e[0], (double)e[1]});
+        }
+        vector<vector<int>> ans;
+        while(k--){
+            vector<double> rnode = pq.top();
+            pq.pop();
+            ans.push_back({(int)rnode[1], (int)rnode[2]});
+        }
+        return ans;
+    }
+};
