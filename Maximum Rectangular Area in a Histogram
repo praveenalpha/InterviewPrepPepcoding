@@ -1,0 +1,72 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+class Solution
+{
+    public:
+    //Function to find largest rectangular area possible in a given histogram.
+    long long getMaxArea(long long arr[], int n)
+    {
+        vector<long long> next_smaller_on_left(n);
+        vector<long long> next_smaller_on_right(n);
+        stack<int> st;
+        for(int i=0;i<n;i++){
+            while(st.size() > 0 && arr[st.top()] > arr[i]){
+                next_smaller_on_right[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
+        }
+        while(st.size() > 0){
+            next_smaller_on_right[st.top()] = n;
+            st.pop();
+        }
+        for(int i=n-1;i>=0;i--){
+            while(st.size() > 0 && arr[st.top()] > arr[i]){
+                next_smaller_on_left[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
+        }
+        while(st.size() > 0){
+            next_smaller_on_left[st.top()] = -1;
+            st.pop();
+        }
+        long long ans = 0;
+        // for(int e:next_smaller_on_left) cout<<e<<"    ";
+        // cout<<endl;
+        // for(int e:next_smaller_on_right) cout<<e<<"    ";
+        
+        for(int i=0;i<n;i++){
+            ans = max(ans, arr[i] * (next_smaller_on_right[i] - next_smaller_on_left[i] - 1));
+        }
+        return ans;
+    }
+};
+
+
+// { Driver Code Starts.
+
+int main()
+ {
+    long long t;
+
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        
+        long long arr[n];
+        for(int i=0;i<n;i++)
+            cin>>arr[i];
+        Solution ob;
+        cout<<ob.getMaxArea(arr, n)<<endl;
+    
+    }
+	return 0;
+}
+  // } Driver Code Ends
