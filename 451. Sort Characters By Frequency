@@ -1,0 +1,23 @@
+// bool compare(pair<int, char>& a, pair<int, char>& b){
+//     return a.first > b.first;
+// }
+class Solution {
+public:
+    string frequencySort(string& s) {
+        vector<pair<int, int>> freq(62, pair<int, char> (0,'a'));
+        for(char ch : s){
+            if(ch >= 'a' && ch <= 'z'){  freq[ch - 'a'].first += 1; freq[ch - 'a'].second = ch;}
+            else if(ch >= 'A' && ch <= 'Z'){ freq[ch - 'A' + 26].first += 1;    freq[ch - 'A' + 26].second = ch;}
+            else if(ch >= '0' && ch <= '9'){ freq[ch - '0' + 52].first += 1;    freq[ch - '0' + 52].second = ch;}
+            
+        }
+        sort(freq.begin(), freq.end(), greater<pair<int, char>> ());
+        string ans = "";
+        for(int i=0;i<62;i++){
+            if(freq[i].first > 0){
+                while(freq[i].first--)    ans += freq[i].second;
+            }
+        }
+        return ans;
+    }
+};
