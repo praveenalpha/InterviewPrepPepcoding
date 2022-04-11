@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> convert(int V, vector<vector<int>>& arr){
+        vector<vector<int>> adj(V, vector<int> ());
+        
+        for(vector<int> edge : arr){
+            int u = edge[0], v = edge[1];
+            adj[u].push_back(v);
+        }
+        
+        return adj;
+    }
+    bool dfs(vector<vector<int>>& adj, int src, vector<bool>& vis, vector<bool> dfs_vis){
+        dfs_vis[src] = true;
+        for(int nbr : adj[src]){
+            if(dfs_vis[nbr] == true)    return false;
+            if(vis[nbr] == false){
+                if(dfs(adj, nbr, vis, dfs_vis) == false)    return false;
+            }
+        }
+        vis[src] = true;
+        return true;
+    }
+    bool canFinish(int V, vector<vector<int>>& arr) {
+        vector<vector<int>> adj = convert(V, arr);
+        vector<bool> vis(V);
+        for(int i=0;i<V;i++){
+            if(vis[i] == false){
+                vector<bool> dfs_vis(V);
+                if(dfs(adj, i, vis, dfs_vis) == false)   return false;
+            }
+        }
+        return true;
+    }
+};
