@@ -1,0 +1,15 @@
+class Solution {
+public:
+    unordered_map<string, bool> dp;
+    bool isScramble(string s1, string s2) {
+        if(dp.find(s1+"#"+s2) != dp.end())  return dp[s1+"#"+s2];
+        if(s1 == s2)    return dp[s1+"#"+s2] = true;
+        int n1 = s1.length(), n2 = s2.length();
+        if(n1 != n2)    return dp[s1+"#"+s2] = false;
+        for(int len = 1; len < n1; len++){
+            if(isScramble(s1.substr(0, len), s2.substr(0, len)) && isScramble(s1.substr(len), s2.substr(len)))  return dp[s1+"#"+s2] = true;
+            if(isScramble(s1.substr(0, len), s2.substr(n2 - len)) && isScramble(s1.substr(len), s2.substr(0, n2 - len)))  return dp[s1+"#"+s2] = true;
+        }
+        return dp[s1+"#"+s2] = false;
+    }
+};
