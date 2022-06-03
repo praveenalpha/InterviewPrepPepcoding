@@ -1,0 +1,35 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution{
+	public:
+	    int mod = 1000000007;
+	    int solve(int n, int i, vector<int>& dp){
+	        if(dp[i] != -1) return dp[i];
+	        if(i == n)  return 1;
+	        int ans = 0;
+	        if(i + 1 <= n)  ans = solve(n, i+1, dp);
+	        if(i + 2 <= n)  ans = (solve(n, i+2, dp)% mod + ans%mod) % mod; 
+	        return dp[i] = ans;
+	    }
+		int nthPoint(int n){
+		    vector<int> dp(n+1, -1);
+		    return solve(n, 0, dp);
+		}
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n;
+		cin >> n;
+		Solution ob;
+		int ans  = ob.nthPoint(n);
+		cout << ans <<"\n";
+	}
+	return 0;
+}  // } Driver Code Ends
