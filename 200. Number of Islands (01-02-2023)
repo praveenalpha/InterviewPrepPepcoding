@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int>> dir = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    void dfs(vector<vector<char>>& grid, int n, int m, int i, int j){
+        grid[i][j] = '0';
+        for(int d = 0;d<4;d++){
+            int next_i = dir[d][0] + i;
+            int next_j = dir[d][1] + j;
+            if(next_i >= 0 && next_i < n && next_j >= 0 && next_j < m && grid[next_i][next_j] == '1'){
+                dfs(grid, n, m, next_i, next_j);
+            }
+        }
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        int ans = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j] == '1'){
+                    ans++;
+                    dfs(grid, n, m, i, j);
+                }
+            }
+        }
+        return ans;
+    }
+};
